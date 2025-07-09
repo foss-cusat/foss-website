@@ -1,0 +1,80 @@
+.section {
+  background: #000;
+  min-height: 100vh;
+  padding: 60px 0;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.heading {
+  color: #fff;
+  font-size: 6vw;
+  letter-spacing: 0.1em;
+  text-align: left;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  background: #111;
+  border: 2px solid #00ffae;
+  border-radius: 16px;
+  padding: 32px 24px;
+  color: #fff;
+  transition: box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  position: relative;
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  background: #00ffae;
+  color: #000;
+  padding: 12px 16px;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 18px;
+}
+
+.cardYear {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.cardName {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.cardInfo {
+  font-size: 1rem;
+  margin-bottom: 24px;
+  color: #b2fff6;
+  flex: 1;
+}
+
+.cardLink {
+  align-self: flex-end;
+  color: #00ffae;
+  font-size: 1.1rem;
+  text-decoration: none;
+  font-weight: 700;
+  border-bottom: 2px solid #00ffae;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.cardLink:hover {
+  color: #fff;
+  border-color: #fff;
+} 
