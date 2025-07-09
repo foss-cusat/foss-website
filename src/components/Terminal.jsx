@@ -15,11 +15,33 @@ const DATA = {
 const SECTIONS = ['home', 'about', 'projects', 'team', 'resources', 'events', 'contact'];
 
 const PROMPT_BASE = 'foss@cusat';
+const TERMINAL_WIDTH = 1000;
+const TERMINAL_HEIGHT = 500;
 
 const Terminal = () => {
   const xtermRef = useRef(null);
   const termRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // Center horizontally, further below the heading
+  const getInitialPosition = () => {
+    const x = Math.max((window.innerWidth - TERMINAL_WIDTH) / 2, 20);
+    const y = window.scrollY + 350;
+    return { x, y, dragging: false, offsetX: 0, offsetY: 0 };
+  };
+
+  const [drag, setDrag] = useState(getInitialPosition());
   const [cwd, setCwd] = useState('home');
+
+  useEffect(() => {
+    // Recenter on window resize (optional, only if not dragging)
+    const handleResize = () => {
+      if (!drag.dragging) setDrag(getInitialPosition());
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (!xtermRef.current) {
@@ -71,6 +93,43 @@ const Terminal = () => {
     };
   }, []);
 
+  // Drag logic
+  useEffect(() => {
+    function onMouseMove(e) {
+      if (drag.dragging) {
+        setDrag((prev) => ({
+          ...prev,
+          x: e.clientX - prev.offsetX,
+          y: e.clientY - prev.offsetY,
+        }));
+      }
+    }
+    function onMouseUp() {
+      setDrag((prev) => ({ ...prev, dragging: false }));
+    }
+    if (drag.dragging) {
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+    } else {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    }
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, [drag.dragging]);
+
+  function startDrag(e) {
+    const rect = containerRef.current.getBoundingClientRect();
+    setDrag({
+      ...drag,
+      dragging: true,
+      offsetX: e.clientX - rect.left,
+      offsetY: e.clientY - rect.top,
+    });
+  }
+
   function printPrompt(term, dir) {
     term.write(`\x1b[1;32m${PROMPT_BASE}:${dir === 'home' ? '~' : '/' + dir}$ \x1b[0m`);
   }
@@ -112,8 +171,40 @@ const Terminal = () => {
   }
 
   return (
-    <div style={{ width: '100%', maxWidth: 1000, margin: '2rem auto', background: '#161b22', borderRadius: 8, boxShadow: '0 2px 16px rgba(0,0,0,0.2)' }}>
-      <div ref={termRef} style={{ height: 500, width: '100%' }} />
+    <div
+      ref={containerRef}
+      style={{
+        width: '100%',
+        maxWidth: TERMINAL_WIDTH,
+        position: 'fixed',
+        top: drag.y,
+        left: drag.x,
+        zIndex: 9999,
+        background: '#161b22',
+        borderRadius: 8,
+        boxShadow: '0 2px 16px rgba(0,0,0,0.2)',
+        userSelect: drag.dragging ? 'none' : 'auto',
+        cursor: drag.dragging ? 'move' : 'default',
+      }}
+    >
+      <div
+        className="terminal-drag-bar"
+        style={{
+          cursor: 'move',
+          background: '#222',
+          color: '#00ff41',
+          padding: '0.5rem 1rem',
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
+          fontWeight: 'bold',
+          letterSpacing: 1,
+          userSelect: 'none',
+        }}
+        onMouseDown={startDrag}
+      >
+        FOSS CUSAT Terminal (Drag me)
+      </div>
+      <div ref={termRef} style={{ height: TERMINAL_HEIGHT, width: '100%' }} />
     </div>
   );
 };
