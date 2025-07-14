@@ -186,91 +186,53 @@ const Terminal = () => {
         onClick={toggleTerminal}
         style={{
           position: 'fixed',
-          top: '30px',
-          right: '30px',
-          width: '70px',
+          top: '32px',
+          right: '32px',
+          width: '160px',
           height: '70px',
-          background: 'linear-gradient(135deg, #00d4ff 0%, #0099cc 100%)',
-          borderRadius: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          boxShadow: '0 8px 25px rgba(0, 212, 255, 0.4), 0 4px 10px rgba(0, 0, 0, 0.3)',
-          zIndex: 10000,
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          border: '2px solid rgba(0, 212, 255, 0.8)',
-          backdropFilter: 'blur(10px)',
-          transform: 'translateZ(0)',
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.transform = 'translateZ(0) scale(1.15) rotate(2deg)';
-          e.target.style.boxShadow = '0 12px 35px rgba(0, 212, 255, 0.6), 0 8px 20px rgba(0, 0, 0, 0.4)';
-          e.target.style.border = '2px solid #00d4ff';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.transform = 'translateZ(0) scale(1) rotate(0deg)';
-          e.target.style.boxShadow = '0 8px 25px rgba(0, 212, 255, 0.4), 0 4px 10px rgba(0, 0, 0, 0.3)';
-          e.target.style.border = '2px solid rgba(0, 212, 255, 0.8)';
-        }}
-      >
-        <div style={{
-          fontSize: '28px',
-          color: '#0a0a0a',
-          fontWeight: 'bold',
-          fontFamily: 'Fira Mono, JetBrains Mono, monospace',
-          textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+          background: 'linear-gradient(135deg, #181f2a 60%, #00bcd4 100%)',
+          border: '3px solid #00bcd4',
+          borderRadius: '12px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '2px',
-        }}>
-          <div style={{ fontSize: '20px', lineHeight: '1' }}>&gt;</div>
-          <div style={{ fontSize: '16px', lineHeight: '1' }}>_</div>
-        </div>
-        
-        {/* Status indicator */}
-        <div style={{
-          position: 'absolute',
-          top: '8px',
-          right: '8px',
-          width: '12px',
-          height: '12px',
-          backgroundColor: isOpen ? '#ff4444' : '#00d4ff',
-          borderRadius: '50%',
-          border: '2px solid #0a0a0a',
-          boxShadow: '0 0 8px rgba(0, 212, 255, 0.6)',
-          animation: isOpen ? 'pulse 2s infinite' : 'none',
-        }} />
-        
-        {/* Tooltip */}
-        <div style={{
-          position: 'absolute',
-          top: '-45px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          color: '#00d4ff',
-          padding: '8px 12px',
-          borderRadius: '6px',
-          fontSize: '12px',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          boxShadow: '0 4px 18px rgba(0, 188, 212, 0.18), 0 2px 8px rgba(0,0,0,0.25)',
+          zIndex: 10000,
+          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, #232b3b 60%, #00eaff 100%)';
+          e.currentTarget.style.boxShadow = '0 8px 28px rgba(0, 234, 255, 0.25), 0 4px 16px rgba(0,0,0,0.32)';
+          e.currentTarget.style.border = '3px solid #00eaff';
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, #181f2a 60%, #00bcd4 100%)';
+          e.currentTarget.style.boxShadow = '0 4px 18px rgba(0, 188, 212, 0.18), 0 2px 8px rgba(0,0,0,0.25)';
+          e.currentTarget.style.border = '3px solid #00bcd4';
+        }}
+      >
+        <span style={{
           fontWeight: 'bold',
-          whiteSpace: 'nowrap',
-          opacity: 0,
-          pointerEvents: 'none',
-          transition: 'opacity 0.3s ease',
-          border: '1px solid #00d4ff',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.opacity = '1';
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.opacity = '0';
-        }}
-        >
-          {isOpen ? 'Close Terminal' : 'Open Terminal'}
-        </div>
+          fontSize: '1.35rem',
+          color: '#fff',
+          letterSpacing: '1px',
+          fontFamily: 'JetBrains Mono, Fira Mono, monospace',
+          textShadow: '0 2px 8px #000a, 0 1px 8px #00eaff44',
+        }}>
+          Terminal
+        </span>
+        <span style={{
+          fontFamily: 'JetBrains Mono, Fira Mono, monospace',
+          fontSize: '1.1rem',
+          color: '#00eaff',
+          marginTop: '2px',
+          letterSpacing: '2px',
+          textShadow: '0 1px 8px #00eaff44',
+        }}>
+          &gt;_
+        </span>
       </div>
       
       <style>{`
