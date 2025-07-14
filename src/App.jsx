@@ -12,7 +12,6 @@ import Contact from './pages/Contact';
 import MatrixRain from './components/MatrixRain';
 import CommandPalette from './components/CommandPalette';
 import ScrollAnimations from './components/ScrollAnimations';
-import RetroTerminal from './components/RetroTerminal';
 import './App.css';
 
 function App() {
@@ -20,7 +19,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [scrollDirection, setScrollDirection] = useState('down');
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [terminalOpen, setTerminalOpen] = useState(false);
+  // const [terminalOpen, setTerminalOpen] = useState(false); // Not needed if RetroTerminal is removed
 
   useEffect(() => {
     // Simulate loading time for terminal boot sequence
@@ -39,11 +38,11 @@ function App() {
       }
       if (e.ctrlKey && e.key === '`') {
         e.preventDefault();
-        setTerminalOpen((open) => !open);
+        // setTerminalOpen((open) => !open); // Not needed if RetroTerminal is removed
       }
       if (e.key === 'Escape') {
         setCommandPaletteOpen(false);
-        setTerminalOpen(false);
+        // setTerminalOpen(false); // Not needed if RetroTerminal is removed
       }
     };
 
@@ -81,7 +80,7 @@ function App() {
         <MatrixRain />
         <ScrollAnimations />
         <Navigation />
-        <RetroTerminal visible={terminalOpen} onClose={() => setTerminalOpen(false)} />
+        {/* <RetroTerminal visible={terminalOpen} onClose={() => setTerminalOpen(false)} /> */}
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={<Home />} />
