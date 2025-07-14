@@ -53,7 +53,7 @@ const Home = () => {
       {/* FOSS CUSAT About Section */}
       <section className="max-w-2xl mx-auto mb-8 px-4">
         <div className="bg-[#181f2a] rounded-lg shadow-lg p-6 text-center">
-          <h2 className="text-2xl font-bold text-green mb-2">About FOSS CUSAT</h2>
+          {/* <h2 className="text-2xl font-bold text-green mb-2">About FOSS CUSAT</h2> */}
           <p className="text-white text-lg">
             FOSS CUSAT is a vibrant student community at Cochin University of Science and Technology dedicated to promoting Free and Open Source Software (FOSS) culture. We organize workshops, hackathons, and collaborative projects to empower students with open source skills, foster innovation, and contribute to the global FOSS movement. Join us to learn, build, and make a difference!
           </p>
