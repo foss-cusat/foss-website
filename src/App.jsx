@@ -3,11 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
-import About from './pages/About';
 import Events from './pages/Events';
 import Projects from './pages/Projects';
-import Resources from './pages/Resources';
-import Team from './pages/Team';
 import Contact from './pages/Contact';
 import MatrixRain from './components/MatrixRain';
 import CommandPalette from './components/CommandPalette';
@@ -84,11 +81,8 @@ function App() {
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
             <Route path="/events" element={<Events />} />
             <Route path="/projects" element={<Projects />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </AnimatePresence>
