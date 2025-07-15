@@ -33,7 +33,7 @@ const Home = () => {
               <br />
               <TypeAnimation
                 sequence={[
-                  'Free and Open Source Software for Education',
+                  'Community Driven Development',
                   2000,
                   'Empowering Students Through Open Source',
                   2000,

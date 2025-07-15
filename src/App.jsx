@@ -6,7 +6,6 @@ import Home from './pages/Home';
 import Events from './pages/Events';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
-import MatrixRain from './components/MatrixRain';
 import CommandPalette from './components/CommandPalette';
 import ScrollAnimations from './components/ScrollAnimations';
 import './App.css';
@@ -63,8 +62,8 @@ function App() {
     return (
       <div className="loading-screen">
         <div className="terminal">
-          <div className="terminal-prompt">root@fossee:~$</div>
-          <div className="typewriter">Initializing FOSSEE Club System...</div>
+          <div className="terminal-prompt">root@foss ~$ </div>
+          <div className="typewriter">Initializing System...</div>
           <div className="loading mt-4"></div>
         </div>
       </div>
@@ -74,10 +73,9 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <MatrixRain />
         <ScrollAnimations />
-        <Navigation />
         {/* <RetroTerminal visible={terminalOpen} onClose={() => setTerminalOpen(false)} /> */}
+        <Navigation />
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={<Home />} />
