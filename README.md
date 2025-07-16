@@ -1,12 +1,15 @@
-# React + Vite
+# 🌐 FOSS CUSAT Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the official repository of the **FOSS CUSAT** club website!
 
-Currently, two official plugins are available:
+## 🚀 About FOSS CUSAT
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**FOSS CUSAT** is a student-led initiative at Cochin University of Science and Technology (CUSAT) dedicated to promoting **Free and Open Source Software** (FOSS) within our university community.  
+We aim to foster a culture of openness, collaboration, and knowledge-sharing through talks, workshops, contributions, and community-driven projects.
 
-## Expanding the ESLint configuration
+This website serves as our digital presence — a place to discover upcoming events, explore our work, and join the movement.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+
+
