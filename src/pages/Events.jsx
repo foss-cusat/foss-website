@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, MapPin, Users, Code, BookOpen, Trophy, Zap } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
 
 const Events = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -112,8 +113,24 @@ const Events = () => {
     return (registered / capacity) * 100;
   };
 
+  const eventsStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "FOSS CUSAT Events",
+    "description": "Explore upcoming workshops, hackathons, and competitions at FOSS CUSAT",
+    "url": "https://fossclub.cusat.ac.in/events"
+  };
+
   return (
-    <div className="min-h-screen">
+    <>
+      <SEOHead 
+        title="Events & Workshops"
+        description="Join exciting workshops, hackathons, and competitions at FOSS CUSAT. Learn Linux, Git, programming, and contribute to open source projects with hands-on experience."
+        keywords="FOSS CUSAT Events, Linux Workshop, Git Workshop, Hackathon CUSAT, Programming Competition, Open Source Events, Tech Events Kerala, Student Workshop"
+        canonical="https://fossclub.cusat.ac.in/events"
+        structuredData={eventsStructuredData}
+      />
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="section">
         <div className="container mx-auto px-4">
@@ -318,7 +335,8 @@ const Events = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 

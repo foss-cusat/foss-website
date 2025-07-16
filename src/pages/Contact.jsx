@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MapPin, Phone, Send, Github, Linkedin, MessageSquare } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -76,8 +77,24 @@ const Contact = () => {
     }
   ];
 
+  const contactStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact FOSS CUSAT",
+    "description": "Get in touch with FOSS CUSAT team",
+    "url": "https://fossclub.cusat.ac.in/contact"
+  };
+
   return (
-    <div className="min-h-screen">
+    <>
+      <SEOHead 
+        title="Contact Us"
+        description="Get in touch with FOSS CUSAT team. Join our community, ask questions, or contribute to our open source initiatives. Connect with us via email, social media, or visit us at CUSAT."
+        keywords="Contact FOSS CUSAT, Join FOSS Club, CUSAT Contact, Open Source Community Contact, Student Club CUSAT, Tech Community Kerala"
+        canonical="https://fossclub.cusat.ac.in/contact"
+        structuredData={contactStructuredData}
+      />
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="section">
         <div className="container mx-auto px-4">
@@ -329,7 +346,8 @@ const Contact = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 

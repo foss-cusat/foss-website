@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { HelmetProvider } from 'react-helmet-async';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import Events from './pages/Events';
@@ -71,26 +72,28 @@ function App() {
   }
 
   return (
-    <Router>
-      <div className="App">
-        <ScrollAnimations />
-        {/* <RetroTerminal visible={terminalOpen} onClose={() => setTerminalOpen(false)} /> */}
-        <Navigation />
-        <AnimatePresence mode="wait">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </AnimatePresence>
+    <HelmetProvider>
+      <Router>
+        <div className="App">
+          <ScrollAnimations />
+          {/* <RetroTerminal visible={terminalOpen} onClose={() => setTerminalOpen(false)} /> */}
+          <Navigation />
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </AnimatePresence>
 
-        <CommandPalette 
-          isOpen={commandPaletteOpen} 
-          onClose={() => setCommandPaletteOpen(false)} 
-        />
-      </div>
-    </Router>
+          <CommandPalette 
+            isOpen={commandPaletteOpen} 
+            onClose={() => setCommandPaletteOpen(false)} 
+          />
+        </div>
+      </Router>
+    </HelmetProvider>
   );
 }
 

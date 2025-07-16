@@ -12,7 +12,7 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="nav">
+    <nav className="nav" role="navigation" aria-label="Main navigation">
       <div className="container mx-auto px-4">
         <div className="flex justify-evenly items-center h-16 w-full">
           {navItems.map((item) => (
@@ -20,6 +20,7 @@ const Navigation = () => {
               key={item.path}
               to={item.path}
               className={`nav-link text-sm md:text-base ${location.pathname === item.path ? 'text-green' : ''}`}
+              aria-current={location.pathname === item.path ? 'page' : undefined}
             >
               {item.label}
             </Link>
