@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Code, Github, ExternalLink, Star, GitBranch, Users, Calendar } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -113,8 +114,24 @@ const Projects = () => {
     }
   };
 
+  const projectsStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "FOSS CUSAT Projects",
+    "description": "Explore open source projects developed by FOSS CUSAT community",
+    "url": "https://fossclub.cusat.ac.in/projects"
+  };
+
   return (
-    <div className="min-h-screen">
+    <>
+      <SEOHead 
+        title="Open Source Projects"
+        description="Discover innovative open source projects developed by FOSS CUSAT community. From web applications to educational tools, explore our contributions to the open source ecosystem."
+        keywords="FOSS CUSAT Projects, Open Source Projects CUSAT, Student Projects Kerala, GitHub Projects, Web Development CUSAT, Educational Tools, Programming Projects"
+        canonical="https://fossclub.cusat.ac.in/projects"
+        structuredData={projectsStructuredData}
+      />
+      <div className="min-h-screen">
       {/* Hero Section */}
       <section className="section">
         <div className="container mx-auto px-4">
@@ -302,7 +319,8 @@ const Projects = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 
