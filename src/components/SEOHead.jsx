@@ -1,6 +1,28 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
+// Sanitize and validate structured data to prevent XSS
+const sanitizeStructuredData = (data) => {
+  if (!data || typeof data !== 'object') return null;
+  
+  // Create a new object with only allowed properties
+  const sanitized = JSON.parse(JSON.stringify(data, (key, value) => {
+    // Remove any potentially dangerous content
+    if (typeof value === 'string') {
+      return value
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;')
+        .replace(/\//g, '&#x2F;');
+    }
+    return value;
+  }));
+
+  return sanitized;
+};
+
 const SEOHead = ({ 
   title = "FOSS CUSAT", 
   description = "FOSS CUSAT is the official Free and Open Source Software club at Cochin University of Science and Technology. Join us for workshops, hackathons, and open source projects.",
@@ -34,9 +56,12 @@ const SEOHead = ({
       
       {/* Structured Data */}
       {structuredData && (
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(sanitizeStructuredData(structuredData))
+          }}
+        />
       )}
     </Helmet>
   );
