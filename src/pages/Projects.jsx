@@ -8,257 +8,292 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
+      title: 'VEGA-R1',
+      description: 'Advanced hardware project featuring Dashboard, SeedNRF52840Sense, and ThrustVectorControl components. Built with C++ and Python for embedded systems.',
+      category: 'hardware',
+      tech: ['C++', 'Python', 'Embedded'],
+      github: 'https://github.com/foss-cusat/VEGA-R1',
+      live: null,
+      stars: 45,
+      forks: 12,
+      contributors: 8,
+      date: '25 Mar 2025',
+      status: 'active',
+      image: '/vega-r1.jpeg'
+    },
+    {
+      id: 2,
       title: 'FOSSEE Website',
       description: 'Modern website for the FOSSEE club built with React and Vite. Features terminal interface and dark theme.',
       category: 'web',
       tech: ['React', 'Vite', 'CSS3', 'JavaScript'],
       github: 'https://github.com/fossee-club/website',
       live: 'https://fossee-club.org',
-      stars: 45,
-      forks: 12,
-      contributors: 8,
-      lastUpdated: '2024-03-10',
+      stars: 23,
+      forks: 5,
+      contributors: 4,
+      date: '15 Apr 2025',
       status: 'active'
     },
     {
-      id: 2,
+      id: 3,
       title: 'Linux Command Trainer',
       description: 'Interactive web application to learn Linux commands through hands-on exercises and challenges.',
       category: 'education',
       tech: ['Python', 'Flask', 'JavaScript', 'SQLite'],
       github: 'https://github.com/fossee-club/linux-trainer',
       live: 'https://linux-trainer.fossee.org',
-      stars: 23,
-      forks: 5,
-      contributors: 4,
-      lastUpdated: '2024-03-08',
-      status: 'active'
-    },
-    {
-      id: 3,
-      title: 'Open Source Project Finder',
-      description: 'Tool to help students find beginner-friendly open source projects to contribute to.',
-      category: 'tool',
-      tech: ['Node.js', 'Express', 'MongoDB', 'React'],
-      github: 'https://github.com/fossee-club/project-finder',
-      live: 'https://project-finder.fossee.org',
       stars: 67,
       forks: 15,
       contributors: 12,
-      lastUpdated: '2024-03-05',
-      status: 'active'
-    },
-    {
-      id: 4,
-      title: 'FOSSEE Mobile App',
-      description: 'Mobile application for FOSSEE club members to stay updated with events and projects.',
-      category: 'mobile',
-      tech: ['React Native', 'Firebase', 'Redux', 'TypeScript'],
-      github: 'https://github.com/fossee-club/mobile-app',
-      live: null,
-      stars: 34,
-      forks: 8,
-      contributors: 6,
-      lastUpdated: '2024-03-01',
-      status: 'development'
-    },
-    {
-      id: 5,
-      title: 'Code Review Bot',
-      description: 'Automated code review bot for GitHub repositories with focus on open source best practices.',
-      category: 'tool',
-      tech: ['Python', 'GitHub API', 'Docker', 'PostgreSQL'],
-      github: 'https://github.com/fossee-club/code-review-bot',
-      live: null,
-      stars: 89,
-      forks: 22,
-      contributors: 15,
-      lastUpdated: '2024-02-28',
-      status: 'active'
-    },
-    {
-      id: 6,
-      title: 'Linux Distro Comparison',
-      description: 'Interactive comparison tool for different Linux distributions with detailed analysis.',
-      category: 'education',
-      tech: ['Vue.js', 'D3.js', 'Node.js', 'MongoDB'],
-      github: 'https://github.com/fossee-club/distro-compare',
-      live: 'https://distro-compare.fossee.org',
-      stars: 56,
-      forks: 11,
-      contributors: 9,
-      lastUpdated: '2024-02-25',
+      date: '25 Apr 2025',
       status: 'active'
     }
   ];
 
   const categories = [
-    { id: 'all', label: 'All Projects', color: 'text-white' },
-    { id: 'web', label: 'Web Apps', color: 'text-green' },
-    { id: 'mobile', label: 'Mobile Apps', color: 'text-cyan' },
-    { id: 'tool', label: 'Tools', color: 'text-orange' },
-    { id: 'education', label: 'Education', color: 'text-green' }
+    { id: 'all', label: 'All Projects' },
+    { id: 'hardware', label: 'Hardware' },
+    { id: 'web', label: 'Web Apps' },
+    { id: 'education', label: 'Education' }
   ];
 
   const filteredProjects = projects.filter(project => 
     activeFilter === 'all' || project.category === activeFilter
   );
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'active': return 'text-green';
-      case 'development': return 'text-orange';
-      case 'archived': return 'text-gray';
-      default: return 'text-white';
-    }
+  // Group projects by month
+  const groupProjectsByMonth = (projects) => {
+    const grouped = {};
+    projects.forEach(project => {
+      const month = project.date.split(' ')[1] + ' ' + project.date.split(' ')[2];
+      if (!grouped[month]) {
+        grouped[month] = [];
+      }
+      grouped[month].push(project);
+    });
+    return grouped;
   };
 
+  const groupedProjects = groupProjectsByMonth(filteredProjects);
+
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="section">
+    <div className="min-h-screen" style={{ background: '#ffffff' }}>
+      {/* Projects Hero Section */}
+      <section className="section" style={{ background: '#ffffff' }}>
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="mb-4"
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <span className="text-green neon-glow-green">Projects</span> & Contributions
+            <h1 className="text-5xl md:text-7xl font-black mb-8" style={{ 
+              letterSpacing: '-0.02em',
+              textTransform: 'uppercase',
+              fontWeight: '900',
+              lineHeight: '1.1',
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              textAlign: 'left',
+              color: '#1a1a1a',
+              textShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              position: 'relative',
+              paddingBottom: '1rem'
+            }}>
+              <span style={{
+                background: 'linear-gradient(135deg, #1a1a1a 0%, #404040 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                display: 'inline-block',
+                position: 'relative'
+              }}>
+                Projects
+              </span>
+              <div style={{
+                position: 'absolute',
+                bottom: '0',
+                left: '0',
+                width: '60px',
+                height: '4px',
+                background: 'linear-gradient(90deg, #059669 0%, #10b981 100%)',
+                borderRadius: '2px',
+                boxShadow: '0 2px 4px rgba(5, 150, 105, 0.3)'
+              }}></div>
             </h1>
-            <p className="text-xl text-gray max-w-3xl mx-auto">
-              Explore our open source projects, member contributions, and innovative solutions built by the FOSSEE community.
-            </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Filters Section */}
-      <section className="section bg-secondary">
+      {/* Projects by Month */}
+      <section className="section" style={{ padding: '1rem 0' }}>
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <h2 className="section-title">Browse Projects</h2>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              {categories.map((category) => (
-                <motion.button
-                  key={category.id}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setActiveFilter(category.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded border transition-colors ${
-                    activeFilter === category.id
-                      ? 'border-green text-green bg-green bg-opacity-10'
-                      : 'border-light-gray text-gray hover:border-green hover:text-green'
-                  }`}
-                >
-                  <Code className="w-4 h-4" />
-                  <span>{category.label}</span>
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Projects Grid */}
-      <section className="section">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredProjects.map((project, index) => (
+          {Object.entries(groupedProjects).map(([month, monthProjects], monthIndex) => (
+            <motion.div
+              key={month}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 * monthIndex }}
+              className="mb-16"
+            >
+              {/* Month Header */}
+              <h2 className="section-title mb-8" style={{ 
+                color: '#111827', 
+                fontSize: '2.5rem',
+                fontWeight: '800',
+                letterSpacing: '-0.025em',
+                textTransform: 'none',
+                textAlign: 'left'
+              }}>{month}</h2>
+              
+              {/* Projects Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {monthProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 * index }}
-                whileHover={{ y: -5 }}
-                className="card"
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="card overflow-hidden hover:shadow-xl transition-all duration-300"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  minHeight: '340px',
+                  background: '#ffffff',
+                  border: '3px solid #000000',
+                  borderRadius: '16px',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)';
+                }}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <Code className="w-8 h-8 text-green" />
-                  <span className={`text-sm px-2 py-1 rounded ${getStatusColor(project.status)} bg-opacity-10`}>
-                    {project.status.toUpperCase()}
-                  </span>
+                {/* Project Image */}
+                <div style={{
+                  height: '180px',
+                  overflow: 'hidden',
+                  borderTopLeftRadius: '14px',
+                  borderTopRightRadius: '14px',
+                  position: 'relative',
+                  background: project.image ? 'transparent' : 
+                    project.category === 'web' ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)' :
+                    project.category === 'education' ? 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' :
+                    'linear-gradient(135deg, #059669 0%, #10b981 100%)'
+                }}>
+                  {project.image ? (
+                    <img 
+                      src={project.image} 
+                      alt={project.title}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center'
+                      }}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.parentElement.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 100%)';
+                        e.target.parentElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%;"><svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></div>';
+                      }}
+                    />
+                  ) : (
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: '100%',
+                      color: 'white',
+                      fontSize: '2rem',
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      padding: '1rem'
+                    }}>
+                      {project.category === 'web' ? '🌐' : 
+                       project.category === 'education' ? '📚' : 
+                       '⚡'}
+                    </div>
+                  )}
                 </div>
 
-                <h3 className="text-xl font-bold mb-2 text-white">{project.title}</h3>
-                <p className="text-gray mb-4">{project.description}</p>
-
-                {/* Tech Stack */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech, techIndex) => (
-                    <span
-                      key={techIndex}
-                      className="text-xs px-2 py-1 bg-cyan bg-opacity-10 text-cyan rounded"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 mb-4 text-center">
-                  <div className="flex items-center justify-center space-x-1">
-                    <Star className="w-4 h-4 text-green" />
-                    <span className="text-sm text-gray">{project.stars}</span>
+                {/* Project Content */}
+                <div className="p-6 flex flex-col justify-between flex-1">
+                  <div>
+                    {/* Project Tag */}
+                    <div className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-semibold mb-3" style={{
+                      background: 'rgba(5, 150, 105, 0.1)',
+                      color: '#059669',
+                      border: '1px solid rgba(5, 150, 105, 0.2)'
+                    }}>
+                      {project.category === 'hardware' ? 'Hardware Project' : 
+                       project.category === 'web' ? 'Web Application' :
+                       project.category === 'education' ? 'Educational Tool' : 'Project'}
+                    </div>
+                    
+                    {/* Project Title */}
+                    <h3 className="text-xl font-bold mb-3 leading-tight" style={{
+                      color: '#111827',
+                      lineHeight: '1.3'
+                    }}>
+                      {project.title}
+                    </h3>
+                    
+                    {/* Project Description */}
+                    <p className="text-sm mb-4" style={{
+                      color: '#6b7280',
+                      lineHeight: '1.5',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden'
+                    }}>
+                      {project.description}
+                    </p>
                   </div>
-                  <div className="flex items-center justify-center space-x-1">
-                    <GitBranch className="w-4 h-4 text-cyan" />
-                    <span className="text-sm text-gray">{project.forks}</span>
-                  </div>
-                  <div className="flex items-center justify-center space-x-1">
-                    <Users className="w-4 h-4 text-green" />
-                    <span className="text-sm text-gray">{project.contributors}</span>
-                  </div>
-                </div>
-
-                {/* Last Updated */}
-                <div className="flex items-center space-x-2 text-sm text-gray mb-4">
-                  <Calendar className="w-4 h-4" />
-                  <span>Updated {project.lastUpdated}</span>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex space-x-2">
-                  <motion.a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex-1 btn flex items-center justify-center space-x-2"
-                  >
-                    <Github className="w-4 h-4" />
-                    <span>View Code</span>
-                  </motion.a>
-                  {project.live && (
-                    <motion.a
-                      href={project.live}
+                  
+                  {/* Tech Stack and Action Button */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-xs font-medium" style={{ color: '#374151' }}>
+                      <span>{project.tech.join(' • ')}</span>
+                    </div>
+                    <a 
+                      href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="btn flex items-center justify-center space-x-2"
+                      className="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200"
+                      style={{
+                        background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+                        color: 'white',
+                        boxShadow: '0 2px 4px rgba(5, 150, 105, 0.3)',
+                        textDecoration: 'none',
+                        display: 'inline-block',
+                        border: '2px solid #000000'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.transform = 'scale(1.05)';
+                        e.target.style.boxShadow = '0 4px 8px rgba(5, 150, 105, 0.4)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.transform = 'scale(1)';
+                        e.target.style.boxShadow = '0 2px 4px rgba(5, 150, 105, 0.3)';
+                      }}
                     >
-                      <ExternalLink className="w-4 h-4" />
-                      <span>Live Demo</span>
-                    </motion.a>
-                  )}
+                      View Project
+                    </a>
+                  </div>
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
+        </motion.div>
+      ))}
 
-          {filteredProjects.length === 0 && (
+      {/* No Projects Found */}
+      {Object.keys(groupedProjects).length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -272,36 +307,166 @@ const Projects = () => {
         </div>
       </section>
 
-      {/* Contribution Stats */}
-      <section className="section bg-secondary">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            <h2 className="section-title">Our Impact</h2>
-            <div className="grid md:grid-cols-4 gap-8">
-              <div className="text-center">
-                <div className="text-4xl font-bold text-green mb-2">15+</div>
-                <div className="text-gray">Open Source Projects</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-cyan mb-2">500+</div>
-                <div className="text-gray">GitHub Stars</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-green mb-2">50+</div>
-                <div className="text-gray">Active Contributors</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-cyan mb-2">1000+</div>
-                <div className="text-gray">Lines of Code</div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <style jsx>{`
+        .grid {
+          display: grid;
+        }
+        
+        @media (min-width: 768px) {
+          .md\\:grid-cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .lg\\:grid-cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+        
+        .gap-8 {
+          gap: 2rem;
+        }
+        
+        .px-4 {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+        
+        .px-3 {
+          padding-left: 0.75rem;
+          padding-right: 0.75rem;
+        }
+        
+        .py-1\\.5 {
+          padding-top: 0.375rem;
+          padding-bottom: 0.375rem;
+        }
+        
+        .text-xs {
+          font-size: 0.75rem;
+        }
+        
+        .text-sm {
+          font-size: 0.875rem;
+        }
+        
+        .text-xl {
+          font-size: 1.25rem;
+        }
+        
+        .text-5xl {
+          font-size: 3rem;
+        }
+        
+        .text-7xl {
+          font-size: 4.5rem;
+        }
+        
+        .font-semibold {
+          font-weight: 600;
+        }
+        
+        .font-black {
+          font-weight: 900;
+        }
+        
+        .rounded-lg {
+          border-radius: 0.5rem;
+        }
+        
+        .inline-flex {
+          display: inline-flex;
+        }
+        
+        .items-center {
+          align-items: center;
+        }
+        
+        .justify-between {
+          justify-content: space-between;
+        }
+        
+        .mb-3 {
+          margin-bottom: 0.75rem;
+        }
+        
+        .mb-4 {
+          margin-bottom: 1rem;
+        }
+        
+        .mb-8 {
+          margin-bottom: 2rem;
+        }
+        
+        .py-16 {
+          padding-top: 4rem;
+          padding-bottom: 4rem;
+        }
+        
+        .w-16 {
+          width: 4rem;
+        }
+        
+        .h-16 {
+          height: 4rem;
+        }
+        
+        .mx-auto {
+          margin-left: auto;
+          margin-right: auto;
+        }
+        
+        .transition-all {
+          transition-property: all;
+          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+          transition-duration: 150ms;
+        }
+        
+        .duration-200 {
+          transition-duration: 200ms;
+        }
+        
+        .duration-300 {
+          transition-duration: 300ms;
+        }
+        
+        .overflow-hidden {
+          overflow: hidden;
+        }
+        
+        .container {
+          width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+          .container {
+            max-width: 640px;
+          }
+        }
+        
+        @media (min-width: 768px) {
+          .container {
+            max-width: 768px;
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .container {
+            max-width: 1024px;
+          }
+        }
+        
+        @media (min-width: 1280px) {
+          .container {
+            max-width: 1280px;
+          }
+        }
+      `}</style>
     </div>
   );
 };

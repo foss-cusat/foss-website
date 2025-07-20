@@ -30,6 +30,18 @@ const Home = () => {
     }
   ];
 
+  // Project data
+  const project = {
+    id: 1,
+    title: 'VEGA-R1',
+    description: 'Advanced hardware project featuring Dashboard, SeedNRF52840Sense, and ThrustVectorControl components. Built with C++ and Python for embedded systems.',
+    category: 'hardware',
+    tech: ['C++', 'Python', 'Embedded'],
+    github: 'https://github.com/foss-cusat/VEGA-R1',
+    date: '25 Mar 2025',
+    image: '/vega-r1.jpeg'
+  };
+
   const filters = [
     { id: 'all', label: 'All Events' },
     { id: 'meetup', label: 'Meetups' },
@@ -357,11 +369,28 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Projects Grid */}
+        {/* Projects by Month */}
         <section className="section" style={{ padding: '1rem 0' }}>
           <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Project Card 1 - VEGA-R1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="mb-16"
+            >
+              {/* Month Header */}
+              <h2 className="section-title mb-8" style={{ 
+                color: '#111827', 
+                fontSize: '2.5rem',
+                fontWeight: '800',
+                letterSpacing: '-0.025em',
+                textTransform: 'none',
+                textAlign: 'left'
+              }}>{project.date.split(' ')[1] + ' ' + project.date.split(' ')[2]}</h2>
+              
+              {/* Projects Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Project Card 1 - VEGA-R1 */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -476,8 +505,9 @@ const Home = () => {
                 </div>
               </motion.div>
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </div>
+      </section>
       </div>
 
       <style jsx>{`
