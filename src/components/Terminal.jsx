@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Terminal as XTerm } from 'xterm';
 import 'xterm/css/xterm.css';
 
-// File system structure
+// File system structure with real data
 const FILE_SYSTEM = {
   home: {
     type: 'directory',
     contents: {
       'projects': { type: 'directory', contents: {} },
       'events': { type: 'directory', contents: {} },
-      'README.md': { type: 'file', content: 'Welcome to FOSS CUSAT Terminal!\n\nThis is your home directory. Use "ls" to list contents and "cd <directory>" to navigate.\n\nAvailable directories:\n- projects: Current and past projects\n- events: Upcoming and past events' },
+      'README.md': { type: 'file', content: 'Welcome to FOSS CUSAT Terminal!\n\nThis is your home directory. Use "ls" to list contents and "cd <directory>" to navigate.\n\nAvailable directories:\n- projects: Featured projects and contributions\n- events: Upcoming and past events\n\nUse "cat README.md" in any directory to view detailed information.' },
       '.bashrc': { type: 'file', content: '# FOSS CUSAT Terminal Configuration\nexport PATH="/usr/local/bin:/usr/bin:/bin"\nexport PS1="\\[\\033[1;32m\\]foss@cusat:\\[\\033[0m\\]\\w$ "' },
       '.profile': { type: 'file', content: 'Welcome to FOSS CUSAT Terminal!' }
     }
@@ -17,21 +17,35 @@ const FILE_SYSTEM = {
   projects: {
     type: 'directory',
     contents: {
-      'website': { type: 'directory', contents: {} },
-      'linux-fest': { type: 'directory', contents: {} },
-      'workshops': { type: 'directory', contents: {} },
-      'contributions': { type: 'directory', contents: {} },
-      'hackathon': { type: 'directory', contents: {} },
-      'open-source-day': { type: 'directory', contents: {} },
-      'README.md': { type: 'file', content: '# FOSS CUSAT Projects\n\nThis directory contains all our active and completed projects.\n\n## Active Projects\n- website/: Club website development\n- linux-fest/: Linux installation festival\n- workshops/: Educational workshops\n- contributions/: Community contributions\n- hackathon/: Annual hackathon project\n- open-source-day/: Open source day event\n\n## Getting Started\nTo contribute to any project, navigate to the respective directory and check the README files.' }
+      'vega-r1': { 
+        type: 'directory', 
+        contents: {
+          'README.md': { type: 'file', content: '# VEGA-R1 Hardware Project\n\nAdvanced hardware project featuring Dashboard, SeedNRF52840Sense, and ThrustVectorControl components.\n\n## Tech Stack\n- C++\n- Python\n- Embedded Systems\n\n## GitHub\nhttps://github.com/foss-cusat/VEGA-R1\n\n## Date\nMarch 25, 2025\n\n## Status\nActive Development' }
+        }
+      },
+      'fossee-website': { 
+        type: 'directory', 
+        contents: {
+          'README.md': { type: 'file', content: '# FOSSEE Website\n\nModern website for the FOSSEE club built with React and Vite. Features terminal interface and dark theme.\n\n## Tech Stack\n- React\n- Vite\n- CSS3\n- JavaScript\n\n## GitHub\nhttps://github.com/fossee-club/website\n\n## Live Demo\nhttps://fossee-club.org\n\n## Date\nApril 15, 2025\n\n## Status\nActive' }
+        }
+      },
+      'linux-command-trainer': { 
+        type: 'directory', 
+        contents: {
+          'README.md': { type: 'file', content: '# Linux Command Trainer\n\nInteractive web application to learn Linux commands through hands-on exercises and challenges.\n\n## Tech Stack\n- Python\n- Flask\n- JavaScript\n- SQLite\n\n## GitHub\nhttps://github.com/fossee-club/linux-trainer\n\n## Live Demo\nhttps://linux-trainer.fossee.org\n\n## Date\nApril 25, 2025\n\n## Status\nActive' }
+        }
+      },
+      'README.md': { type: 'file', content: '# FOSS CUSAT Featured Projects\n\nThis directory contains our featured projects and contributions.\n\n## Available Projects\n- vega-r1/: Advanced hardware project (C++, Python, Embedded)\n- fossee-website/: Club website (React, Vite, JavaScript)\n- linux-command-trainer/: Educational tool (Python, Flask, SQLite)\n\n## Getting Started\nUse "cd <project-name>" to navigate to a project directory.\nUse "cat README.md" to view project details.\n\n## GitHub Links\nAll projects are available on GitHub for contributions and collaboration.' }
     }
   },
   events: {
     type: 'directory',
     contents: {
-      'upcoming': { type: 'directory', contents: {} },
-      'past': { type: 'directory', contents: {} },
-      'calendar.md': { type: 'file', content: '# FOSS CUSAT Events Calendar\n\n## Upcoming Events\n- Linux Bootcamp (Next Week)\n- Open Source Hackathon (Month End)\n- FOSS Workshop Series (Ongoing)\n\n## Past Events\n- Linux Install Fest 2023\n- Open Source Day 2023\n- Git Workshop Series\n\n## Event Registration\nVisit https://fosscusat.in/events to register for upcoming events.' }
+      'inauguration-ceremony.md': { type: 'file', content: '# Inauguration Ceremony: Git, GitHub & GitLab Workshop\n\n## Details\n- **Organization**: FOSS CUSAT\n- **Date**: July 15, 2025\n- **Location**: CUSAT Campus, Kochi\n- **Type**: Workshop\n- **Status**: Active\n\n## Description\nComprehensive workshop covering Git version control, GitHub collaboration, and GitLab workflows.\n\n## Registration\nRegister through the website or contact the organizers.' },
+      'vega-r1-launch.md': { type: 'file', content: '# VEGA-R1 Project Launch\n\n## Details\n- **Project**: VEGA-R1 Hardware Project\n- **Date**: March 25, 2025\n- **Type**: Project Launch\n- **Status**: Completed\n\n## Description\nOfficial launch of the VEGA-R1 hardware project featuring advanced embedded systems.' },
+      'website-launch.md': { type: 'file', content: '# FOSSEE Website Launch\n\n## Details\n- **Project**: FOSSEE Website\n- **Date**: April 15, 2025\n- **Type**: Website Launch\n- **Status**: Completed\n\n## Description\nLaunch of the new FOSSEE club website with modern design and terminal interface.' },
+      'linux-trainer-launch.md': { type: 'file', content: '# Linux Command Trainer Launch\n\n## Details\n- **Project**: Linux Command Trainer\n- **Date**: April 25, 2025\n- **Type**: Educational Tool Launch\n- **Status**: Completed\n\n## Description\nRelease of the interactive Linux command learning platform.' },
+      'README.md': { type: 'file', content: '# FOSS CUSAT Events\n\nThis directory contains all upcoming and past events.\n\n## Available Events\n- inauguration-ceremony.md: Git, GitHub & GitLab Workshop (Jul 15, 2025)\n- vega-r1-launch.md: VEGA-R1 Project Launch (Mar 25, 2025)\n- website-launch.md: FOSSEE Website Launch (Apr 15, 2025)\n- linux-trainer-launch.md: Linux Command Trainer Launch (Apr 25, 2025)\n\n## Navigation\nUse "cat <event-file>.md" to view event details.\nUse "ls" to see all available events.\n\n## Registration\nFor upcoming events, visit the website or contact organizers.' }
     }
   }
 };
