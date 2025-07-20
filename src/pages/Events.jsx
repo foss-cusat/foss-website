@@ -1,255 +1,267 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, MapPin, Users, Code, BookOpen, Trophy, Zap } from 'lucide-react';
+import { Calendar, MapPin, Clock, Users, Code, BookOpen, Trophy, Zap, ChevronRight } from 'lucide-react';
 
 const Events = () => {
   const [activeFilter, setActiveFilter] = useState('all');
 
+  // Updated events data to match the image style
   const events = [
     {
       id: 1,
-      title: 'Linux Fundamentals Workshop',
-      type: 'workshop',
-      date: '2024-03-15',
-      time: '10:00 AM - 2:00 PM',
-      location: 'Computer Lab 101',
-      capacity: 30,
-      registered: 25,
-      description: 'Learn the basics of Linux command line, file system, and basic administration.',
-      tags: ['Linux', 'Beginner', 'Hands-on'],
-      icon: BookOpen
+      title: 'Web Designing Competition',
+      organization: 'FOSS Club PDEA COEM',
+      date: '24 Jul 2025',
+      location: "PDEA's College of Engineering",
+      type: 'competition',
+      tagColor: 'green',
+      hasIcon: true
     },
     {
       id: 2,
-      title: 'Open Source Hackathon 2024',
-      type: 'hackathon',
-      date: '2024-04-01',
-      time: '48 Hours',
-      location: 'Innovation Center',
-      capacity: 100,
-      registered: 85,
-      description: 'Build innovative solutions using open source technologies. Prizes worth $5000.',
-      tags: ['Hackathon', 'Advanced', 'Competition'],
-      icon: Code
+      title: 'Virtual Meetup #1',
+      organization: 'SCIPY INDIA',
+      date: '26 Jul 2025',
+      location: 'Online',
+      type: 'meetup',
+      tagColor: 'black'
     },
     {
       id: 3,
-      title: 'Git & GitHub Masterclass',
-      type: 'workshop',
-      date: '2024-03-22',
-      time: '2:00 PM - 5:00 PM',
-      location: 'Online',
-      capacity: 50,
-      registered: 42,
-      description: 'Master version control with Git and collaboration on GitHub.',
-      tags: ['Git', 'GitHub', 'Intermediate'],
-      icon: BookOpen
+      title: 'August Meetup',
+      organization: 'LUCKNOW',
+      date: '02 Aug 2025',
+      location: 'IIIT Lucknow',
+      type: 'meetup',
+      tagColor: 'black'
     },
     {
       id: 4,
-      title: 'Coding Competition: Algorithm Challenge',
-      type: 'competition',
-      date: '2024-03-30',
-      time: '3:00 PM - 6:00 PM',
-      location: 'Main Auditorium',
-      capacity: 60,
-      registered: 58,
-      description: 'Solve algorithmic problems and compete for the top spot.',
-      tags: ['Algorithms', 'Competition', 'Advanced'],
-      icon: Trophy
+      title: 'FOSS Meetup Mumbai',
+      organization: 'MUMBAI',
+      date: '02 Aug 2025',
+      location: 'Frappe, Vidyavihar',
+      type: 'meetup',
+      tagColor: 'black'
     },
     {
       id: 5,
-      title: 'Web Development Bootcamp',
+      title: 'Unbox Freedom: Dive into Open Source',
+      organization: 'SRM KTR',
+      date: '05 Aug 2025',
+      location: 'Turing Hall, 8th floor TP, SRM',
       type: 'workshop',
-      date: '2024-04-08',
-      time: '10:00 AM - 4:00 PM',
-      location: 'Computer Lab 102',
-      capacity: 40,
-      registered: 35,
-      description: 'Build modern web applications using React, Node.js, and open source tools.',
-      tags: ['Web Dev', 'React', 'Intermediate'],
-      icon: BookOpen
+      tagColor: 'green',
+      hasIcon: true
     },
     {
       id: 6,
-      title: 'Lightning Talks: Open Source Projects',
-      type: 'event',
-      date: '2024-04-15',
-      time: '6:00 PM - 8:00 PM',
-      location: 'Conference Room A',
-      capacity: 80,
-      registered: 65,
-      description: 'Quick presentations on interesting open source projects and contributions.',
-      tags: ['Talks', 'Projects', 'All Levels'],
-      icon: Zap
+      title: 'FOSS meetup Bangalore - Community Building',
+      organization: 'BENGALURU',
+      date: '09 Aug 2025',
+      location: 'Samagata Foundation',
+      type: 'meetup',
+      tagColor: 'black'
+    },
+    {
+      id: 7,
+      title: 'Linux Installation Festival',
+      organization: 'FOSS CUSAT',
+      date: '15 Aug 2025',
+      location: 'CUSAT Campus, Kochi',
+      type: 'festival',
+      tagColor: 'green',
+      hasIcon: true
+    },
+    {
+      id: 8,
+      title: 'Open Source Hackathon',
+      organization: 'FOSS CUSAT',
+      date: '22 Aug 2025',
+      location: 'Innovation Center, CUSAT',
+      type: 'hackathon',
+      tagColor: 'green',
+      hasIcon: true
     }
   ];
 
   const filters = [
-    { id: 'all', label: 'All Events', icon: Calendar },
-    { id: 'workshop', label: 'Workshops', icon: BookOpen },
-    { id: 'hackathon', label: 'Hackathons', icon: Code },
-    { id: 'competition', label: 'Competitions', icon: Trophy },
-    { id: 'event', label: 'Events', icon: Zap }
+    { id: 'all', label: 'All Events' },
+    { id: 'meetup', label: 'Meetups' },
+    { id: 'workshop', label: 'Workshops' },
+    { id: 'competition', label: 'Competitions' },
+    { id: 'festival', label: 'Festivals' },
+    { id: 'hackathon', label: 'Hackathons' }
   ];
 
   const filteredEvents = events.filter(event => 
     activeFilter === 'all' || event.type === activeFilter
   );
 
-  const getTypeColor = (type) => {
-    switch (type) {
-      case 'workshop': return 'text-green';
-      case 'hackathon': return 'text-cyan';
-      case 'competition': return 'text-orange';
-      case 'event': return 'text-green';
-      default: return 'text-white';
+  // Group events by month
+  const groupEventsByMonth = (events) => {
+    const grouped = {};
+    events.forEach(event => {
+      const month = event.date.split(' ')[1] + ' ' + event.date.split(' ')[2];
+      if (!grouped[month]) {
+        grouped[month] = [];
+      }
+      grouped[month].push(event);
+    });
+    return grouped;
+  };
+
+  const groupedEvents = groupEventsByMonth(filteredEvents);
+
+  const getTagStyle = (color, hasIcon = false) => {
+    const baseStyle = "inline-flex items-center px-3 py-1 rounded-md text-xs font-medium text-white";
+    if (color === 'green') {
+      return `${baseStyle} bg-green-600`;
+    } else {
+      return `${baseStyle} bg-gray-800`;
     }
   };
 
-  const getProgressPercentage = (registered, capacity) => {
-    return (registered / capacity) * 100;
-  };
-
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" style={{ background: '#f9fafb' }}>
       {/* Hero Section */}
-      <section className="section">
+      <section className="section" style={{ background: '#f9fafb' }}>
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <span className="text-green neon-glow-green">Events</span> & Activities
+            <h1 className="text-6xl md:text-8xl font-black mb-16 text-gray-900" style={{ 
+              letterSpacing: '-0.03em',
+              textTransform: 'none',
+              fontWeight: '900',
+              lineHeight: '1.1',
+              fontFamily: 'monospace'
+            }}>
+              FOSS Events
             </h1>
-            <p className="text-xl text-gray max-w-3xl mx-auto">
-              Join our exciting events, workshops, and competitions. Learn, compete, and grow with the FOSSEE community.
-            </p>
+
           </motion.div>
+
+
         </div>
       </section>
 
-      {/* Filters Section */}
-      <section className="section bg-secondary">
+      {/* Events by Month */}
+      <section className="section" style={{ padding: '4rem 0' }}>
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <h2 className="section-title">Browse Events</h2>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              {filters.map((filter) => (
-                <motion.button
-                  key={filter.id}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setActiveFilter(filter.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded border transition-colors ${
-                    activeFilter === filter.id
-                      ? 'border-green text-green bg-green bg-opacity-10'
-                      : 'border-light-gray text-gray hover:border-green hover:text-green'
-                  }`}
-                >
-                  <filter.icon className="w-4 h-4" />
-                  <span>{filter.label}</span>
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+          {Object.entries(groupedEvents).map(([month, monthEvents], monthIndex) => (
+            <motion.div
+              key={month}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 * monthIndex }}
+              className="mb-16"
+            >
+              {/* Month Header */}
+              <h2 className="section-title mb-8" style={{ 
+                color: '#111827', 
+                fontSize: '2.5rem',
+                fontWeight: '800',
+                letterSpacing: '-0.025em',
+                textTransform: 'none'
+              }}>{month}</h2>
+              
+              {/* Events Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
+                {monthEvents.map((event, eventIndex) => (
+                  <motion.div
+                    key={event.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 * eventIndex }}
+                    whileHover={{ y: -4, scale: 1.02 }}
+                    className="card overflow-hidden hover:shadow-xl transition-all duration-300"
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      minHeight: '180px',
+                      maxHeight: '200px',
+                      width: '100%',
+                      minWidth: '320px',
+                      background: '#ffffff',
+                      border: '2px solid #e5e7eb',
+                      borderRadius: '16px',
+                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)',
+                      transform: 'translateY(0)',
+                      transition: 'all 0.3s ease',
+                      margin: '1rem'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.border = '3px solid #000000';
+                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.border = '2px solid #e5e7eb';
+                      e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)';
+                    }}
+                  >
+                    {/* Organization Tag */}
+                    <div className="p-5 pb-2">
+                      <div className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-semibold ${
+                        event.tagColor === 'green' 
+                          ? 'bg-green-50 text-green-700 border border-green-200' 
+                          : 'bg-gray-800 text-white shadow-md'
+                      }`}>
+                        {event.hasIcon && (
+                          <svg className="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                        {event.organization}
+                      </div>
+                    </div>
 
-      {/* Events Grid */}
-      <section className="section">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredEvents.map((event, index) => (
-              <motion.div
-                key={event.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                whileHover={{ y: -5 }}
-                className="card"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <event.icon className={`w-8 h-8 ${getTypeColor(event.type)}`} />
-                  <span className={`text-sm px-2 py-1 rounded ${getTypeColor(event.type)} bg-opacity-10`}>
-                    {event.type.toUpperCase()}
-                  </span>
-                </div>
+                    {/* Event Content */}
+                    <div className="p-5 pt-0 flex flex-col justify-between flex-1">
+                      <div>
+                        {/* Date */}
+                        <p className="text-sm mb-2 font-medium" style={{ color: '#059669' }}>{event.date}</p>
+                        
+                        {/* Title */}
+                        <h3 className="text-lg font-bold mb-3 leading-tight" style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                          color: '#111827',
+                          lineHeight: '1.3'
+                        }}>
+                          {event.title}
+                        </h3>
+                      </div>
+                      
+                      {/* Location */}
+                      <div className="flex items-center text-sm mt-auto font-medium" style={{ color: '#374151' }}>
+                        <MapPin className="w-4 h-4 mr-1.5" style={{ color: '#6b7280' }} />
+                        <span style={{
+                          display: '-webkit-box',
+                          WebkitLineClamp: 1,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden'
+                        }}>
+                          {event.location}
+                        </span>
+                      </div>
+                    </div>
 
-                <h3 className="text-xl font-bold mb-2 text-white">{event.title}</h3>
-                <p className="text-gray mb-4">{event.description}</p>
+                    {/* Hover Effect Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-green/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          ))}
 
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Calendar className="w-4 h-4 text-green" />
-                    <span className="text-gray">{event.date}</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Clock className="w-4 h-4 text-cyan" />
-                    <span className="text-gray">{event.time}</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm">
-                    <MapPin className="w-4 h-4 text-green" />
-                    <span className="text-gray">{event.location}</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Users className="w-4 h-4 text-cyan" />
-                    <span className="text-gray">{event.registered}/{event.capacity} registered</span>
-                  </div>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="mb-4">
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-gray">Registration</span>
-                    <span className="text-green">{Math.round(getProgressPercentage(event.registered, event.capacity))}%</span>
-                  </div>
-                  <div className="w-full bg-light-gray rounded-full h-2">
-                    <div
-                      className="bg-green h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${getProgressPercentage(event.registered, event.capacity)}%` }}
-                    ></div>
-                  </div>
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {event.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="text-xs px-2 py-1 bg-green bg-opacity-10 text-green rounded"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="btn w-full"
-                  disabled={event.registered >= event.capacity}
-                >
-                  {event.registered >= event.capacity ? 'Fully Booked' : 'Register Now'}
-                </motion.button>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {filteredEvents.length === 0 && (
+          {/* No Events Found */}
+          {Object.keys(groupedEvents).length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -263,61 +275,366 @@ const Events = () => {
         </div>
       </section>
 
-      {/* Upcoming Highlights */}
-      <section className="section bg-secondary">
-        <div className="container mx-auto px-4">
+      {/* Call to Action */}
+      <section className="section bg-green" style={{ background: 'var(--terminal-green)' }}>
+        <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.8 }}
           >
-            <h2 className="section-title">Upcoming Highlights</h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="card">
-                <div className="flex items-center space-x-4 mb-4">
-                  <Trophy className="w-12 h-12 text-orange" />
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Annual Hackathon</h3>
-                    <p className="text-gray">April 1-3, 2024</p>
-                  </div>
-                </div>
-                <p className="text-gray mb-4">
-                  Our biggest event of the year! 48 hours of coding, innovation, and collaboration. 
-                  Build something amazing with open source technologies.
-                </p>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="btn"
-                >
-                  Learn More
-                </motion.button>
-              </div>
-
-              <div className="card">
-                <div className="flex items-center space-x-4 mb-4">
-                  <BookOpen className="w-12 h-12 text-green" />
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Linux Workshop Series</h3>
-                    <p className="text-gray">Every Saturday</p>
-                  </div>
-                </div>
-                <p className="text-gray mb-4">
-                  Weekly hands-on workshops covering Linux administration, shell scripting, 
-                  and system administration. Perfect for beginners and intermediate users.
-                </p>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="btn"
-                >
-                  View Schedule
-                </motion.button>
-              </div>
-            </div>
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Want to Host an Event?
+            </h2>
+            <p className="text-white mb-8 max-w-2xl mx-auto" style={{ opacity: 0.9 }}>
+              Join our community of event organizers and help spread the open source movement across the country.
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="btn bg-white text-green px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-200 inline-flex items-center"
+              style={{ color: 'var(--terminal-green)' }}
+            >
+              Submit Your Event
+              <ChevronRight className="w-4 h-4 ml-2" />
+            </motion.button>
           </motion.div>
         </div>
       </section>
+
+      <style jsx>{`
+        .grid {
+          display: grid;
+        }
+        
+        @media (min-width: 768px) {
+          .md\\:grid-cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .lg\\:grid-cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+        
+        @media (min-width: 1280px) {
+          .xl\\:grid-cols-4 {
+            grid-template-columns: repeat(4, 1fr);
+          }
+        }
+        
+        .gap-6 {
+          gap: 1.5rem;
+        }
+        
+        .gap-8 {
+          gap: 2rem;
+        }
+        
+        .gap-12 {
+          gap: 3rem;
+        }
+        
+        .gap-3 {
+          gap: 0.75rem;
+        }
+        
+        .px-4 {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+        
+        .py-3 {
+          padding-top: 0.75rem;
+          padding-bottom: 0.75rem;
+        }
+        
+        .px-8 {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+        
+        .px-3 {
+          padding-left: 0.75rem;
+          padding-right: 0.75rem;
+        }
+        
+        .py-1 {
+          padding-top: 0.25rem;
+          padding-bottom: 0.25rem;
+        }
+        
+        .text-xs {
+          font-size: 0.75rem;
+        }
+        
+        .text-sm {
+          font-size: 0.875rem;
+        }
+        
+        .text-lg {
+          font-size: 1.125rem;
+        }
+        
+        .text-xl {
+          font-size: 1.25rem;
+        }
+        
+        .text-3xl {
+          font-size: 1.875rem;
+        }
+        
+        .text-4xl {
+          font-size: 2.25rem;
+        }
+        
+        .text-6xl {
+          font-size: 3.75rem;
+        }
+        
+        .font-medium {
+          font-weight: 500;
+        }
+        
+        .font-semibold {
+          font-weight: 600;
+        }
+        
+        .rounded-lg {
+          border-radius: 0.5rem;
+        }
+        
+        .rounded-md {
+          border-radius: 0.375rem;
+        }
+        
+        .inline-flex {
+          display: inline-flex;
+        }
+        
+        .items-center {
+          align-items: center;
+        }
+        
+        .justify-center {
+          justify-content: center;
+        }
+        
+        .text-center {
+          text-align: center;
+        }
+        
+        .flex-wrap {
+          flex-wrap: wrap;
+        }
+        
+        .flex {
+          display: flex;
+        }
+        
+        .flex-col {
+          flex-direction: column;
+        }
+        
+        .justify-between {
+          justify-content: space-between;
+        }
+        
+        .mt-auto {
+          margin-top: auto;
+        }
+        
+        .mr-1 {
+          margin-right: 0.25rem;
+        }
+        
+        .mr-2 {
+          margin-right: 0.5rem;
+        }
+        
+        .ml-2 {
+          margin-left: 0.5rem;
+        }
+        
+        .mb-2 {
+          margin-bottom: 0.5rem;
+        }
+        
+        .mb-3 {
+          margin-bottom: 0.75rem;
+        }
+        
+        .mb-4 {
+          margin-bottom: 1rem;
+        }
+        
+        .mb-6 {
+          margin-bottom: 1.5rem;
+        }
+        
+        .mb-8 {
+          margin-bottom: 2rem;
+        }
+        
+        .mb-12 {
+          margin-bottom: 3rem;
+        }
+        
+        .py-16 {
+          padding-top: 4rem;
+          padding-bottom: 4rem;
+        }
+        
+        .py-12 {
+          padding-top: 3rem;
+          padding-bottom: 3rem;
+        }
+        
+        .w-3 {
+          width: 0.75rem;
+        }
+        
+        .w-4 {
+          width: 1rem;
+        }
+        
+        .h-3 {
+          height: 0.75rem;
+        }
+        
+        .h-4 {
+          height: 1rem;
+        }
+        
+        .w-16 {
+          width: 4rem;
+        }
+        
+        .h-16 {
+          height: 4rem;
+        }
+        
+        .max-w-2xl {
+          max-width: 42rem;
+        }
+        
+        .max-w-3xl {
+          max-width: 48rem;
+        }
+        
+        .mx-auto {
+          margin-left: auto;
+          margin-right: auto;
+        }
+        
+        .transition-all {
+          transition-property: all;
+          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+          transition-duration: 150ms;
+        }
+        
+        .duration-200 {
+          transition-duration: 200ms;
+        }
+        
+        .duration-300 {
+          transition-duration: 300ms;
+        }
+        
+        .hover\\:shadow-lg:hover {
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hover\\:bg-gray-50:hover {
+          background-color: #f9fafb;
+        }
+        
+        .hover\\:border-green:hover {
+          border-color: var(--terminal-green);
+        }
+        
+        .hover\\:text-green:hover {
+          color: var(--terminal-green);
+        }
+        
+        .hover\\:opacity-100:hover {
+          opacity: 1;
+        }
+        
+        .opacity-0 {
+          opacity: 0;
+        }
+        
+        .pointer-events-none {
+          pointer-events: none;
+        }
+        
+        .absolute {
+          position: absolute;
+        }
+        
+        .inset-0 {
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+        }
+        
+        .bg-gradient-to-t {
+          background-image: linear-gradient(to top, var(--tw-gradient-stops));
+        }
+        
+        .from-green\\/10 {
+          --tw-gradient-from: rgba(0, 255, 65, 0.1);
+          --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(0, 255, 65, 0));
+        }
+        
+        .to-transparent {
+          --tw-gradient-to: transparent;
+        }
+        
+        .shadow-lg {
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .overflow-hidden {
+          overflow: hidden;
+        }
+        
+        .container {
+          width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+          .container {
+            max-width: 640px;
+          }
+        }
+        
+        @media (min-width: 768px) {
+          .container {
+            max-width: 768px;
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .container {
+            max-width: 1024px;
+          }
+        }
+        
+        @media (min-width: 1280px) {
+          .container {
+            max-width: 1280px;
+          }
+        }
+      `}</style>
     </div>
   );
 };
