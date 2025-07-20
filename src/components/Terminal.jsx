@@ -2,17 +2,41 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Terminal as XTerm } from 'xterm';
 import 'xterm/css/xterm.css';
 
-const DATA = {
-  about: `FOSS CUSAT is a community of students passionate about open source software, Linux, and programming. Our mission is to promote FOSS philosophy and provide hands-on learning opportunities at CUSAT.`,
-  projects: `Projects:\n- Open Source Club Website\n- Linux Install Fest\n- FOSS Workshops\n- Community Contributions`,
-  team: `Team:\n- Alice (Lead)\n- Bob (Dev)\n- Carol (Design)\n- Dave (Events)`,
-  resources: `Resources:\n- https://fosscusat.in/resources\n- https://fosscusat.in/docs`,
-  events: `Upcoming Events:\n- Linux Bootcamp\n- Hackathon\n- Open Source Day`,
-  contact: `Contact us at: foss@cusat.ac.in`,
-  help: `Available commands: ls, cd <section>, about, projects, team, resources, events, contact, clear, help`,
+// File system structure
+const FILE_SYSTEM = {
+  home: {
+    type: 'directory',
+    contents: {
+      'projects': { type: 'directory', contents: {} },
+      'events': { type: 'directory', contents: {} },
+      'README.md': { type: 'file', content: 'Welcome to FOSS CUSAT Terminal!\n\nThis is your home directory. Use "ls" to list contents and "cd <directory>" to navigate.\n\nAvailable directories:\n- projects: Current and past projects\n- events: Upcoming and past events' },
+      '.bashrc': { type: 'file', content: '# FOSS CUSAT Terminal Configuration\nexport PATH="/usr/local/bin:/usr/bin:/bin"\nexport PS1="\\[\\033[1;32m\\]foss@cusat:\\[\\033[0m\\]\\w$ "' },
+      '.profile': { type: 'file', content: 'Welcome to FOSS CUSAT Terminal!' }
+    }
+  },
+  projects: {
+    type: 'directory',
+    contents: {
+      'website': { type: 'directory', contents: {} },
+      'linux-fest': { type: 'directory', contents: {} },
+      'workshops': { type: 'directory', contents: {} },
+      'contributions': { type: 'directory', contents: {} },
+      'hackathon': { type: 'directory', contents: {} },
+      'open-source-day': { type: 'directory', contents: {} },
+      'README.md': { type: 'file', content: '# FOSS CUSAT Projects\n\nThis directory contains all our active and completed projects.\n\n## Active Projects\n- website/: Club website development\n- linux-fest/: Linux installation festival\n- workshops/: Educational workshops\n- contributions/: Community contributions\n- hackathon/: Annual hackathon project\n- open-source-day/: Open source day event\n\n## Getting Started\nTo contribute to any project, navigate to the respective directory and check the README files.' }
+    }
+  },
+  events: {
+    type: 'directory',
+    contents: {
+      'upcoming': { type: 'directory', contents: {} },
+      'past': { type: 'directory', contents: {} },
+      'calendar.md': { type: 'file', content: '# FOSS CUSAT Events Calendar\n\n## Upcoming Events\n- Linux Bootcamp (Next Week)\n- Open Source Hackathon (Month End)\n- FOSS Workshop Series (Ongoing)\n\n## Past Events\n- Linux Install Fest 2023\n- Open Source Day 2023\n- Git Workshop Series\n\n## Event Registration\nVisit https://fosscusat.in/events to register for upcoming events.' }
+    }
+  }
 };
 
-const SECTIONS = ['home', 'about', 'projects', 'team', 'resources', 'events', 'contact'];
+const SECTIONS = ['home', 'projects', 'events'];
 
 const PROMPT_BASE = 'foss@cusat';
 const TERMINAL_WIDTH = 1000;
@@ -24,9 +48,9 @@ const Terminal = () => {
   const containerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Center horizontally, further below the heading
+  // Position on the left side, further below the heading
   const getInitialPosition = () => {
-    const x = Math.max((window.innerWidth - TERMINAL_WIDTH) / 2, 20);
+    const x = 20; // Fixed left position
     const y = window.scrollY + 350;
     return { x, y, dragging: false, offsetX: 0, offsetY: 0 };
   };
@@ -48,9 +72,9 @@ const Terminal = () => {
     if (!xtermRef.current && isOpen) {
       const term = new XTerm({
         theme: {
-          background: '#161b22',
-          foreground: '#00ff41',
-          cursor: '#00ff41',
+          background: '#000000',
+          foreground: '#ffffff',
+          cursor: '#ffffff',
         },
         fontFamily: 'Fira Mono, JetBrains Mono, monospace',
         fontSize: 16,
@@ -78,6 +102,18 @@ const Terminal = () => {
           if (input.length > 0) {
             input = input.slice(0, -1);
             term.write('\b \b');
+          }
+        } else if (domEvent.key === 'Tab') {
+          // Handle tab completion
+          domEvent.preventDefault();
+          const completed = handleTabCompletion(input, currentDir);
+          if (completed !== input) {
+            // Clear current input and replace with completed version
+            for (let i = 0; i < input.length; i++) {
+              term.write('\b \b');
+            }
+            input = completed;
+            term.write(input);
           }
         } else if (domEvent.key.length === 1) {
           input += key;
@@ -138,30 +174,188 @@ const Terminal = () => {
   function handleCommand(cmd, term, currentDir, setDir) {
     const command = cmd.trim();
     if (!command) return;
-    if (command === 'clear') {
-      term.clear();
+    
+    const args = command.split(' ');
+    const cmdName = args[0].toLowerCase();
+    
+    switch (cmdName) {
+      case 'clear':
+        term.clear();
+        return;
+        
+      case 'ls':
+        handleLs(term, currentDir, args);
+        return;
+        
+      case 'cd':
+        handleCd(term, currentDir, setDir, args);
+        return;
+        
+      case 'cat':
+        handleCat(term, currentDir, args);
+        return;
+        
+      case 'pwd':
+        term.writeln(currentDir === 'home' ? '/home' : `/${currentDir}`);
+        return;
+        
+      case 'help':
+        showHelp(term);
+        return;
+        
+      case 'whoami':
+        term.writeln('foss');
+        return;
+        
+      case 'date':
+        term.writeln(new Date().toString());
+        return;
+        
+      case 'echo':
+        term.writeln(args.slice(1).join(' '));
+        return;
+        
+      default:
+        term.writeln(`Command not found: ${cmdName}. Type 'help' for available commands.`);
+        return;
+    }
+  }
+
+  function handleLs(term, currentDir, args) {
+    const dir = FILE_SYSTEM[currentDir];
+    if (!dir || dir.type !== 'directory') {
+      term.writeln(`ls: cannot access '${currentDir}': No such file or directory`);
       return;
     }
-    if (command === 'ls') {
-      term.writeln(SECTIONS.join('  '));
+    
+    const contents = Object.keys(dir.contents);
+    if (contents.length === 0) {
+      term.writeln('(empty directory)');
       return;
     }
-    if (command.startsWith('cd ')) {
-      const target = command.slice(3).trim().toLowerCase();
-      if (SECTIONS.includes(target)) {
-        setDir(target);
-        scrollToSection(target);
-        term.writeln(`Changed directory to /${target}`);
-      } else {
-        term.writeln(`No such section: ${target}`);
-      }
+    
+    // Format output like real ls
+    const items = contents.map(item => {
+      const itemData = dir.contents[item];
+      const suffix = itemData.type === 'directory' ? '/' : '';
+      return item + suffix;
+    });
+    
+    term.writeln(items.join('  '));
+  }
+
+  function handleCd(term, currentDir, setDir, args) {
+    if (args.length < 2) {
+      // cd without arguments goes to home
+      setDir('home');
+      scrollToSection('home');
       return;
     }
-    if (DATA[command.toLowerCase()]) {
-      term.writeln(DATA[command.toLowerCase()]);
+    
+    const target = args[1];
+    
+    if (target === '..' || target === '../') {
+      // Go back to home
+      setDir('home');
+      scrollToSection('home');
+      return;
+    }
+    
+    if (target === '.' || target === './') {
+      // Stay in current directory
+      return;
+    }
+    
+    // Check if target directory exists
+    if (FILE_SYSTEM[target] && FILE_SYSTEM[target].type === 'directory') {
+      setDir(target);
+      scrollToSection(target);
     } else {
-      term.writeln(`Command not found: ${command}`);
+      term.writeln(`cd: ${target}: No such file or directory`);
     }
+  }
+
+  function handleCat(term, currentDir, args) {
+    if (args.length < 2) {
+      term.writeln('cat: missing file operand');
+      return;
+    }
+    
+    const filename = args[1];
+    const dir = FILE_SYSTEM[currentDir];
+    
+    if (!dir || dir.type !== 'directory') {
+      term.writeln(`cat: cannot access '${currentDir}': No such file or directory`);
+      return;
+    }
+    
+    const file = dir.contents[filename];
+    if (!file || file.type !== 'file') {
+      term.writeln(`cat: ${filename}: No such file or directory`);
+      return;
+    }
+    
+    term.writeln(file.content);
+  }
+
+  function handleTabCompletion(input, currentDir) {
+    const words = input.split(' ');
+    const lastWord = words[words.length - 1];
+    
+    if (words.length === 1) {
+      // Completing command name
+      const commands = ['ls', 'cd', 'cat', 'pwd', 'help', 'whoami', 'date', 'echo', 'clear'];
+      const matches = commands.filter(cmd => cmd.startsWith(lastWord));
+      
+      if (matches.length === 1) {
+        // Single match - complete it
+        words[words.length - 1] = matches[0];
+        return words.join(' ');
+      } else if (matches.length > 1) {
+        // Multiple matches - show options
+        console.log('Multiple matches:', matches);
+        return input; // Don't complete, just return current input
+      }
+    } else if (words.length >= 2) {
+      // Completing file/directory name
+      const dir = FILE_SYSTEM[currentDir];
+      if (dir && dir.type === 'directory') {
+        const contents = Object.keys(dir.contents);
+        const matches = contents.filter(item => item.startsWith(lastWord));
+        
+        if (matches.length === 1) {
+          // Single match - complete it
+          words[words.length - 1] = matches[0];
+          return words.join(' ');
+        } else if (matches.length > 1) {
+          // Multiple matches - show options
+          console.log('Multiple matches:', matches);
+          return input; // Don't complete, just return current input
+        }
+      }
+    }
+    
+    return input; // No completion possible
+  }
+
+  function showHelp(term) {
+    term.writeln('Available commands:');
+    term.writeln('  ls                    - List directory contents');
+    term.writeln('  cd <directory>        - Change directory');
+    term.writeln('  cat <file>            - Display file contents');
+    term.writeln('  pwd                   - Print working directory');
+    term.writeln('  whoami                - Print effective user ID');
+    term.writeln('  date                  - Display current date/time');
+    term.writeln('  echo <text>           - Display a line of text');
+    term.writeln('  clear                 - Clear the terminal screen');
+    term.writeln('  help                  - Show this help message');
+    term.writeln('');
+    term.writeln('Navigation:');
+    term.writeln('  cd ..                 - Go back to home directory');
+    term.writeln('  cd <section>          - Navigate to section (about, projects, etc.)');
+    term.writeln('');
+    term.writeln('Features:');
+    term.writeln('  Tab                   - Auto-complete commands and filenames');
   }
 
   function scrollToSection(section) {
@@ -240,6 +434,31 @@ const Terminal = () => {
           0%, 100% { opacity: 1; transform: scale(1); }
           50% { opacity: 0.7; transform: scale(1.1); }
         }
+        
+        /* Force terminal content to align left */
+        .xterm {
+          text-align: left !important;
+        }
+        
+        .xterm-viewport {
+          text-align: left !important;
+        }
+        
+        .xterm-screen {
+          text-align: left !important;
+        }
+        
+        .xterm-rows {
+          text-align: left !important;
+        }
+        
+        .xterm-row {
+          text-align: left !important;
+        }
+        
+        .xterm-cursor {
+          text-align: left !important;
+        }
       `}</style>
 
       {/* Terminal Window */}
@@ -253,19 +472,20 @@ const Terminal = () => {
             top: drag.y,
             left: drag.x,
             zIndex: 9999,
-            background: '#161b22',
+            background: '#000000',
             borderRadius: 8,
-            boxShadow: '0 2px 16px rgba(0,0,0,0.2)',
+            boxShadow: '0 2px 16px rgba(0,0,0,0.4)',
             userSelect: drag.dragging ? 'none' : 'auto',
             cursor: drag.dragging ? 'move' : 'default',
           }}
+          onMouseDown={startDrag}
         >
           <div
             className="terminal-drag-bar"
             style={{
               cursor: 'move',
-              background: '#222',
-              color: '#00ff41',
+              background: '#111111',
+              color: '#ffffff',
               padding: '0.5rem 1rem',
               borderTopLeftRadius: 8,
               borderTopRightRadius: 8,
@@ -276,16 +496,17 @@ const Terminal = () => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
+            onMouseDown={startDrag}
           >
-            <div onMouseDown={startDrag}>
-              FOSS CUSAT Terminal (Drag me)
+            <div>
+              FOSS CUSAT Terminal
             </div>
             <button
               onClick={closeTerminal}
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#ff4444',
+                color: '#ffffff',
                 cursor: 'pointer',
                 fontSize: '18px',
                 fontWeight: 'bold',
@@ -294,18 +515,23 @@ const Terminal = () => {
                 transition: 'background-color 0.2s',
               }}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#ff4444';
-                e.target.style.color = '#fff';
+                e.target.style.backgroundColor = '#ffffff';
+                e.target.style.color = '#000000';
               }}
               onMouseLeave={(e) => {
                 e.target.style.backgroundColor = 'transparent';
-                e.target.style.color = '#ff4444';
+                e.target.style.color = '#ffffff';
               }}
             >
               ×
             </button>
           </div>
-          <div ref={termRef} style={{ height: TERMINAL_HEIGHT, width: '100%' }} />
+          <div ref={termRef} style={{ 
+            height: TERMINAL_HEIGHT, 
+            width: '100%',
+            paddingLeft: '10px',
+            textAlign: 'left'
+          }} />
         </div>
       )}
     </>
