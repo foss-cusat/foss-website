@@ -187,7 +187,7 @@ const Events = () => {
                       width: '100%',
                       minWidth: '320px',
                       background: '#ffffff',
-                      border: '2px solid #e5e7eb',
+                      border: '3px solid #000000',
                       borderRadius: '16px',
                       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)',
                       transform: 'translateY(0)',
@@ -195,11 +195,9 @@ const Events = () => {
                       margin: '1rem'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.border = '3px solid #000000';
                       e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.border = '2px solid #e5e7eb';
                       e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)';
                     }}
                   >
@@ -249,6 +247,30 @@ const Events = () => {
                         }}>
                           {event.location}
                         </span>
+                      </div>
+                      
+                      {/* Register Button */}
+                      <div className="mt-3">
+                        <button 
+                          className="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200"
+                          style={{
+                            background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+                            color: 'white',
+                            boxShadow: '0 2px 4px rgba(5, 150, 105, 0.3)',
+                            border: '2px solid #000000',
+                            width: '100%'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = 'scale(1.05)';
+                            e.target.style.boxShadow = '0 4px 8px rgba(5, 150, 105, 0.4)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = 'scale(1)';
+                            e.target.style.boxShadow = '0 2px 4px rgba(5, 150, 105, 0.3)';
+                          }}
+                        >
+                          Register
+                        </button>
                       </div>
                     </div>
 

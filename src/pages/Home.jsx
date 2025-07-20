@@ -202,7 +202,7 @@ const Home = () => {
                         width: '100%',
                         minWidth: '320px',
                         background: '#ffffff',
-                        border: '2px solid #e5e7eb',
+                        border: '3px solid #000000',
                         borderRadius: '16px',
                         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)',
                         transform: 'translateY(0)',
@@ -210,11 +210,9 @@ const Home = () => {
                         margin: '1rem'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.border = '3px solid #000000';
                         e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.border = '2px solid #e5e7eb';
                         e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)';
                       }}
                     >
@@ -307,6 +305,177 @@ const Home = () => {
                 <p className="text-gray">Check back later for new events or try a different filter.</p>
               </motion.div>
             )}
+          </div>
+        </section>
+      </div>
+
+      {/* Projects Section */}
+      <div className="min-h-screen" style={{ background: '#ffffff' }}>
+        {/* Projects Hero Section */}
+        <section className="section" style={{ background: '#ffffff' }}>
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="mb-4"
+            >
+              <h1 className="text-5xl md:text-7xl font-black mb-8" style={{ 
+                letterSpacing: '-0.02em',
+                textTransform: 'uppercase',
+                fontWeight: '900',
+                lineHeight: '1.1',
+                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                textAlign: 'left',
+                color: '#1a1a1a',
+                textShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                position: 'relative',
+                paddingBottom: '1rem'
+              }}>
+                <span style={{
+                  background: 'linear-gradient(135deg, #1a1a1a 0%, #404040 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  display: 'inline-block',
+                  position: 'relative'
+                }}>
+                  Projects
+                </span>
+                <div style={{
+                  position: 'absolute',
+                  bottom: '0',
+                  left: '0',
+                  width: '60px',
+                  height: '4px',
+                  background: 'linear-gradient(90deg, #059669 0%, #10b981 100%)',
+                  borderRadius: '2px',
+                  boxShadow: '0 2px 4px rgba(5, 150, 105, 0.3)'
+                }}></div>
+              </h1>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Projects Grid */}
+        <section className="section" style={{ padding: '1rem 0' }}>
+          <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Project Card 1 - VEGA-R1 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                whileHover={{ y: -4, scale: 1.02 }}
+                className="card overflow-hidden hover:shadow-xl transition-all duration-300"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  minHeight: '340px',
+                  background: '#ffffff',
+                  border: '3px solid #000000',
+                  borderRadius: '16px',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)';
+                }}
+              >
+                {/* Project Image */}
+                <div style={{
+                  height: '180px',
+                  overflow: 'hidden',
+                  borderTopLeftRadius: '14px',
+                  borderTopRightRadius: '14px',
+                  position: 'relative'
+                }}>
+                  <img 
+                    src="/vega-r1.jpeg" 
+                    alt="VEGA-R1 Hardware Project"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center'
+                    }}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.parentElement.style.background = 'linear-gradient(135deg, #059669 0%, #10b981 100%)';
+                      e.target.parentElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%;"><svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></div>';
+                    }}
+                  />
+                </div>
+
+                {/* Project Content */}
+                <div className="p-6 flex flex-col justify-between flex-1">
+                  <div>
+                    {/* Project Tag */}
+                    <div className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-semibold mb-3" style={{
+                      background: 'rgba(5, 150, 105, 0.1)',
+                      color: '#059669',
+                      border: '1px solid rgba(5, 150, 105, 0.2)'
+                    }}>
+                      Hardware Project
+                    </div>
+                    
+                    {/* Project Title */}
+                    <h3 className="text-xl font-bold mb-3 leading-tight" style={{
+                      color: '#111827',
+                      lineHeight: '1.3'
+                    }}>
+                      VEGA-R1
+                    </h3>
+                    
+                    {/* Project Description */}
+                    <p className="text-sm mb-4" style={{
+                      color: '#6b7280',
+                      lineHeight: '1.5',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden'
+                    }}>
+                      Advanced hardware project featuring Dashboard, SeedNRF52840Sense, and ThrustVectorControl components. Built with C++ and Python for embedded systems.
+                    </p>
+                  </div>
+                  
+                  {/* Tech Stack */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-xs font-medium" style={{ color: '#374151' }}>
+                      <span>C++ • Python • Embedded</span>
+                    </div>
+                    <a 
+                      href="https://github.com/foss-cusat/VEGA-R1"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200"
+                      style={{
+                        background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+                        color: 'white',
+                        boxShadow: '0 2px 4px rgba(5, 150, 105, 0.3)',
+                        textDecoration: 'none',
+                        display: 'inline-block',
+                        border: '2px solid #000000'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.transform = 'scale(1.05)';
+                        e.target.style.boxShadow = '0 4px 8px rgba(5, 150, 105, 0.4)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.transform = 'scale(1)';
+                        e.target.style.boxShadow = '0 2px 4px rgba(5, 150, 105, 0.3)';
+                      }}
+                    >
+                      View Project
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
       </div>
