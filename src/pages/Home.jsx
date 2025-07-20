@@ -158,7 +158,7 @@ const Home = () => {
                   display: 'inline-block',
                   position: 'relative'
                 }}>
-                  Events
+                  Upcoming Events
                 </span>
                 <div style={{
                   position: 'absolute',
@@ -352,7 +352,7 @@ const Home = () => {
                   display: 'inline-block',
                   position: 'relative'
                 }}>
-                  Projects
+                  Featured Projects
                 </span>
                 <div style={{
                   position: 'absolute',
