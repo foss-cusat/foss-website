@@ -46,12 +46,12 @@ const Terminal = () => {
   const xtermRef = useRef(null);
   const termRef = useRef(null);
   const containerRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
-  // Position on the left side, further below the heading
+  // Position on the right side, further below the heading
   const getInitialPosition = () => {
-    const x = 20; // Fixed left position
-    const y = window.scrollY + 350;
+    const x = window.innerWidth - TERMINAL_WIDTH - 20; // Fixed right position
+    const y = window.scrollY + 450; // Moved further down
     return { x, y, dragging: false, offsetX: 0, offsetY: 0 };
   };
 
