@@ -397,49 +397,29 @@ const Terminal = () => {
           top: '32px',
           right: '32px',
           width: '160px',
-          height: '70px',
-          background: 'linear-gradient(135deg, #181f2a 60%, #00bcd4 100%)',
-          border: '3px solid #00bcd4',
-          borderRadius: '12px',
+          height: '56px',
+          background: '#000000',
+          border: '2px solid #ffffff',
+          borderRadius: '8px',
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'left',
-          justifyContent: 'left',
+          alignItems: 'center',
+          justifyContent: 'center',
           cursor: 'pointer',
-          boxShadow: '0 4px 18px rgba(0, 188, 212, 0.18), 0 2px 8px rgba(0,0,0,0.25)',
           zIndex: 10000,
-          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.background = 'linear-gradient(135deg, #232b3b 60%, #00eaff 100%)';
-          e.currentTarget.style.boxShadow = '0 8px 28px rgba(0, 234, 255, 0.25), 0 4px 16px rgba(0,0,0,0.32)';
-          e.currentTarget.style.border = '3px solid #00eaff';
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.background = 'linear-gradient(135deg, #181f2a 60%, #00bcd4 100%)';
-          e.currentTarget.style.boxShadow = '0 4px 18px rgba(0, 188, 212, 0.18), 0 2px 8px rgba(0,0,0,0.25)';
-          e.currentTarget.style.border = '3px solid #00bcd4';
+          fontFamily: 'JetBrains Mono, Fira Mono, monospace', // Moved font style to parent
+          fontWeight: 'bold',
+          fontSize: '18px',
+          letterSpacing: '1px',
         }}
       >
-        <span style={{
-          fontWeight: 'bold',
-          fontSize: '1.35rem',
-          color: '#fff',
-          letterSpacing: '1px',
-          fontFamily: 'JetBrains Mono, Fira Mono, monospace',
-          textShadow: '0 2px 8px #000a, 0 1px 8px #00eaff44',
-        }}>
-          Terminal
+        {/* White Text Part */}
+        <span style={{ color: '#fff' }}>
+          Terminal&nbsp;
         </span>
-        <span style={{
-          fontFamily: 'JetBrains Mono, Fira Mono, monospace',
-          fontSize: '1.1rem',
-          color: '#00eaff',
-          marginTop: '2px',
-          letterSpacing: '2px',
-          textShadow: '0 1px 8px #00eaff44',
-        }}>
-          &gt;_
+
+        {/* Green Text Part */}
+        <span style={{ color: '#00FF41' }}>
+          {'>_'}
         </span>
       </div>
       
