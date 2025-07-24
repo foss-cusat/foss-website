@@ -9,6 +9,7 @@ import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import CommandPalette from './components/CommandPalette';
 import ScrollAnimations from './components/ScrollAnimations';
+import Terminal from './components/Terminal';
 import './App.css';
 
 function App() {
@@ -16,14 +17,17 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [scrollDirection, setScrollDirection] = useState('down');
   const [lastScrollY, setLastScrollY] = useState(0);
-  // const [terminalOpen, setTerminalOpen] = useState(false); // Not needed if RetroTerminal is removed
+
+  // State for controlling the terminal's visibility is now here
+  const [isTerminalOpen, setIsTerminalOpen] = useState(true);
+  const toggleTerminal = () => setIsTerminalOpen(!isTerminalOpen);
+  const closeTerminal = () => setIsTerminalOpen(false);
 
   useEffect(() => {
-    // Simulate loading time for terminal boot sequence
+    // Simulate loading time
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2000);
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -33,17 +37,11 @@ function App() {
         e.preventDefault();
         setCommandPaletteOpen(true);
       }
-      if (e.ctrlKey && e.key === '`') {
-        e.preventDefault();
-        // setTerminalOpen((open) => !open); // Not needed if RetroTerminal is removed
-      }
       if (e.key === 'Escape') {
         setCommandPaletteOpen(false);
-        // setTerminalOpen(false); // Not needed if RetroTerminal is removed
       }
     };
 
-    // Scroll direction detection
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setScrollDirection(currentScrollY > lastScrollY ? 'down' : 'up');
@@ -75,8 +73,10 @@ function App() {
     <Router>
       <div className="App">
         <ScrollAnimations />
-        {/* <RetroTerminal visible={terminalOpen} onClose={() => setTerminalOpen(false)} /> */}
-        <Navigation />
+        
+        {/* Pass the toggle function to the Navigation component */}
+        <Navigation onToggleTerminal={toggleTerminal} />
+        
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -87,6 +87,9 @@ function App() {
         </AnimatePresence>
 
         <Footer />
+
+        {/* Pass state and close function to the Terminal */}
+        <Terminal isOpen={isTerminalOpen} onClose={closeTerminal} />
 
         <CommandPalette 
           isOpen={commandPaletteOpen} 
