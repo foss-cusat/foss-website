@@ -50,22 +50,18 @@ const FILE_SYSTEM = {
   }
 };
 
-const SECTIONS = ['home', 'projects', 'events'];
-
 const PROMPT_BASE = 'foss@cusat';
 const TERMINAL_WIDTH = 1000;
 const TERMINAL_HEIGHT = 500;
 
-const Terminal = () => {
+const Terminal = ({ isOpen, onClose }) => {
   const xtermRef = useRef(null);
   const termRef = useRef(null);
   const containerRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(true);
 
-  // Position on the right side, further below the heading
   const getInitialPosition = () => {
-    const x = window.innerWidth - TERMINAL_WIDTH - 20; // Fixed right position
-    const y = window.scrollY + 450; // Moved further down
+    const x = window.innerWidth - TERMINAL_WIDTH - 20;
+    const y = window.scrollY + 450;
     return { x, y, dragging: false, offsetX: 0, offsetY: 0 };
   };
 
@@ -73,13 +69,11 @@ const Terminal = () => {
   const [cwd, setCwd] = useState('home');
 
   useEffect(() => {
-    // Recenter on window resize (optional, only if not dragging)
     const handleResize = () => {
       if (!drag.dragging) setDrag(getInitialPosition());
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -118,11 +112,9 @@ const Terminal = () => {
             term.write('\b \b');
           }
         } else if (domEvent.key === 'Tab') {
-          // Handle tab completion
           domEvent.preventDefault();
           const completed = handleTabCompletion(input, currentDir);
           if (completed !== input) {
-            // Clear current input and replace with completed version
             for (let i = 0; i < input.length; i++) {
               term.write('\b \b');
             }
@@ -135,7 +127,7 @@ const Terminal = () => {
         }
       });
     }
-    // Cleanup
+    
     return () => {
       if (xtermRef.current && !isOpen) {
         xtermRef.current.dispose();
@@ -144,7 +136,6 @@ const Terminal = () => {
     };
   }, [isOpen]);
 
-  // Drag logic
   useEffect(() => {
     function onMouseMove(e) {
       if (drag.dragging) {
@@ -172,15 +163,17 @@ const Terminal = () => {
   }, [drag.dragging]);
 
   function startDrag(e) {
-    const rect = containerRef.current.getBoundingClientRect();
-    setDrag({
-      ...drag,
-      dragging: true,
-      offsetX: e.clientX - rect.left,
-      offsetY: e.clientY - rect.top,
-    });
+    if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setDrag({
+            ...drag,
+            dragging: true,
+            offsetX: e.clientX - rect.left,
+            offsetY: e.clientY - rect.top,
+        });
+    }
   }
-
+  
   function printPrompt(term, dir) {
     term.write(`\x1b[1;32m${PROMPT_BASE}:${dir === 'home' ? '~' : '/' + dir}$ \x1b[0m`);
   }
@@ -193,97 +186,64 @@ const Terminal = () => {
     const cmdName = args[0].toLowerCase();
     
     switch (cmdName) {
-      case 'clear':
-        term.clear();
-        return;
-        
-      case 'ls':
-        handleLs(term, currentDir, args);
-        return;
-        
-      case 'cd':
-        handleCd(term, currentDir, setDir, args);
-        return;
-        
-      case 'cat':
-        handleCat(term, currentDir, args);
-        return;
-        
-      case 'pwd':
-        term.writeln(currentDir === 'home' ? '/home' : `/${currentDir}`);
-        return;
-        
-      case 'help':
-        showHelp(term);
-        return;
-        
-      case 'whoami':
-        term.writeln('foss');
-        return;
-        
-      case 'date':
-        term.writeln(new Date().toString());
-        return;
-        
-      case 'echo':
-        term.writeln(args.slice(1).join(' '));
-        return;
-        
-      default:
-        term.writeln(`Command not found: ${cmdName}. Type 'help' for available commands.`);
-        return;
+      case 'clear': term.clear(); return;
+      case 'ls': handleLs(term, currentDir, args); return;
+      case 'cd': handleCd(term, currentDir, setDir, args); return;
+      case 'cat': handleCat(term, currentDir, args); return;
+      case 'pwd': term.writeln(currentDir === 'home' ? '/home' : `/${currentDir}`); return;
+      case 'help': showHelp(term); return;
+      case 'whoami': term.writeln('foss'); return;
+      case 'date': term.writeln(new Date().toString()); return;
+      case 'echo': term.writeln(args.slice(1).join(' ')); return;
+      default: term.writeln(`Command not found: ${cmdName}. Type 'help' for available commands.`); return;
     }
   }
 
   function handleLs(term, currentDir, args) {
     const dir = FILE_SYSTEM[currentDir];
     if (!dir || dir.type !== 'directory') {
-      term.writeln(`ls: cannot access '${currentDir}': No such file or directory`);
-      return;
+        term.writeln(`ls: cannot access '${currentDir}': No such file or directory`);
+        return;
     }
-    
+
     const contents = Object.keys(dir.contents);
     if (contents.length === 0) {
-      term.writeln('(empty directory)');
-      return;
+        term.writeln('(empty directory)');
+        return;
     }
-    
-    // Format output like real ls
-    const items = contents.map(item => {
-      const itemData = dir.contents[item];
-      const suffix = itemData.type === 'directory' ? '/' : '';
-      return item + suffix;
-    });
-    
-    term.writeln(items.join('  '));
+
+    const output = contents.map(item => {
+        const itemData = dir.contents[item];
+        if (itemData.type === 'directory') {
+            return `\x1b[1;34m${item}/\x1b[0m`; // Blue for directories
+        }
+        return item;
+    }).join('   '); // Use REGULAR spaces
+
+    term.writeln(output);
   }
 
   function handleCd(term, currentDir, setDir, args) {
     if (args.length < 2) {
-      // cd without arguments goes to home
       setDir('home');
       scrollToSection('home');
       return;
     }
     
     const target = args[1];
-    
     if (target === '..' || target === '../') {
-      // Go back to home
       setDir('home');
       scrollToSection('home');
       return;
     }
     
     if (target === '.' || target === './') {
-      // Stay in current directory
       return;
     }
     
-    // Check if target directory exists
     if (FILE_SYSTEM[target] && FILE_SYSTEM[target].type === 'directory') {
       setDir(target);
-      scrollToSection(target);
+      document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
     } else {
       term.writeln(`cd: ${target}: No such file or directory`);
     }
@@ -317,39 +277,26 @@ const Terminal = () => {
     const lastWord = words[words.length - 1];
     
     if (words.length === 1) {
-      // Completing command name
       const commands = ['ls', 'cd', 'cat', 'pwd', 'help', 'whoami', 'date', 'echo', 'clear'];
       const matches = commands.filter(cmd => cmd.startsWith(lastWord));
       
       if (matches.length === 1) {
-        // Single match - complete it
         words[words.length - 1] = matches[0];
         return words.join(' ');
-      } else if (matches.length > 1) {
-        // Multiple matches - show options
-        console.log('Multiple matches:', matches);
-        return input; // Don't complete, just return current input
       }
     } else if (words.length >= 2) {
-      // Completing file/directory name
       const dir = FILE_SYSTEM[currentDir];
       if (dir && dir.type === 'directory') {
         const contents = Object.keys(dir.contents);
         const matches = contents.filter(item => item.startsWith(lastWord));
         
         if (matches.length === 1) {
-          // Single match - complete it
           words[words.length - 1] = matches[0];
           return words.join(' ');
-        } else if (matches.length > 1) {
-          // Multiple matches - show options
-          console.log('Multiple matches:', matches);
-          return input; // Don't complete, just return current input
         }
       }
     }
-    
-    return input; // No completion possible
+    return input;
   }
 
   function showHelp(term) {
@@ -363,13 +310,6 @@ const Terminal = () => {
     term.writeln('  echo <text>           - Display a line of text');
     term.writeln('  clear                 - Clear the terminal screen');
     term.writeln('  help                  - Show this help message');
-    term.writeln('');
-    term.writeln('Navigation:');
-    term.writeln('  cd ..                 - Go back to home directory');
-    term.writeln('  cd <section>          - Navigate to section (about, projects, etc.)');
-    term.writeln('');
-    term.writeln('Features:');
-    term.writeln('  Tab                   - Auto-complete commands and filenames');
   }
 
   function scrollToSection(section) {
@@ -379,83 +319,14 @@ const Terminal = () => {
     }
   }
 
-  const toggleTerminal = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const closeTerminal = () => {
-    setIsOpen(false);
-  };
-
   return (
     <>
-      {/* Terminal App Icon */}
-      <div
-        onClick={toggleTerminal}
-        style={{
-          position: 'fixed',
-          top: '32px',
-          right: '32px',
-          width: '160px',
-          height: '56px',
-          background: '#000000',
-          border: '2px solid #ffffff',
-          borderRadius: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-          zIndex: 10000,
-          fontFamily: 'JetBrains Mono, Fira Mono, monospace', // Moved font style to parent
-          fontWeight: 'bold',
-          fontSize: '18px',
-          letterSpacing: '1px',
-        }}
-      >
-        {/* White Text Part */}
-        <span style={{ color: '#fff' }}>
-          Terminal&nbsp;
-        </span>
-
-        {/* Green Text Part */}
-        <span style={{ color: '#00FF41' }}>
-          {'>_'}
-        </span>
-      </div>
-      
       <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.7; transform: scale(1.1); }
-        }
-        
-        /* Force terminal content to align left */
-        .xterm {
-          text-align: left !important;
-        }
-        
-        .xterm-viewport {
-          text-align: left !important;
-        }
-        
-        .xterm-screen {
-          text-align: left !important;
-        }
-        
-        .xterm-rows {
-          text-align: left !important;
-        }
-        
-        .xterm-row {
-          text-align: left !important;
-        }
-        
-        .xterm-cursor {
+        .xterm, .xterm-viewport, .xterm-screen, .xterm-rows, .xterm-row, .xterm-cursor {
           text-align: left !important;
         }
       `}</style>
 
-      {/* Terminal Window */}
       {isOpen && (
         <div
           ref={containerRef}
@@ -492,11 +363,9 @@ const Terminal = () => {
             }}
             onMouseDown={startDrag}
           >
-            <div>
-              FOSS CUSAT Terminal
-            </div>
+            <div>FOSS CUSAT Terminal</div>
             <button
-              onClick={closeTerminal}
+              onClick={onClose}
               style={{
                 background: 'none',
                 border: 'none',
@@ -532,4 +401,4 @@ const Terminal = () => {
   );
 };
 
-export default Terminal; 
+export default Terminal;

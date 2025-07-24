@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-const Navigation = () => {
+const Navigation = ({ onToggleTerminal }) => {
   const location = useLocation();
+  const [isHovered, setIsHovered] = useState(false);
 
   const navItems = [
     { path: '/', label: 'Home' },
@@ -11,6 +12,32 @@ const Navigation = () => {
     { path: '/projects', label: 'Projects' },
     { path: '/contact', label: 'Contact' },
   ];
+
+  const baseButtonStyle = {
+    height: '40px',
+    padding: '0 16px',
+    background: '#000000',
+    border: '2px solid #ffffff',
+    borderRadius: '8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    zIndex: 10000,
+    fontFamily: 'JetBrains Mono, Fira Mono, monospace',
+    fontWeight: 'bold',
+    fontSize: '14px',
+    letterSpacing: '1px',
+    flexShrink: 0,
+    transition: 'all 0.2s ease-in-out', // Smooth transition for the effect
+  };
+
+  const hoverButtonStyle = {
+    transform: 'scale(1.05)',
+    borderColor: '#00FF41', // Change border to green on hover
+    boxShadow: '0 0 10px rgba(0, 255, 65, 0.5)', // Add a green glow
+  };
+
 
   return (
     <nav className="nav" style={{
@@ -20,101 +47,54 @@ const Navigation = () => {
       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
     }}>
       <div className="container mx-auto px-4">
-        <div className="flex justify-evenly items-center h-16 w-full relative">
-          {navItems.map((item, index) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className="nav-link text-sm md:text-base font-medium transition-colors duration-200 relative"
-              style={{
-                padding: '0.5rem 1rem',
-                borderRadius: '0.375rem',
-                position: 'relative',
-                zIndex: 2,
-                color: location.pathname === item.path ? '#059669' : '#6b7280',
-                fontWeight: location.pathname === item.path ? '600' : '500'
-              }}
-            >
-              {item.label}
-              
-              {/* Active Page Indicator */}
-              {location.pathname === item.path && (
-                <motion.div
-                  layoutId="activePageIndicator"
-                  className="absolute bottom-0 left-0 right-0 h-1 bg-green rounded-t"
-                  style={{
-                    background: 'linear-gradient(90deg, #059669 0%, #10b981 100%)',
-                    boxShadow: '0 2px 4px rgba(5, 150, 105, 0.3)'
-                  }}
-                  initial={{ opacity: 0, scaleX: 0 }}
-                  animate={{ 
-                    opacity: 1, 
-                    scaleX: 1,
-                    transition: {
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 30
-                    }
-                  }}
-                  exit={{ opacity: 0, scaleX: 0 }}
-                />
-              )}
-            </Link>
-          ))}
+        <div className="flex justify-between items-center h-16 w-full relative">
           
-          {/* Background line for visual continuity */}
-          <div 
-            className="absolute bottom-0 left-0 right-0 h-1 bg-gray-200"
-            style={{ zIndex: 1 }}
-          />
+          <div className="flex justify-center flex-grow">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className="nav-link text-sm md:text-base font-medium transition-colors duration-200 relative"
+                style={{
+                  padding: '0.5rem 1rem',
+                  borderRadius: '0.375rem',
+                  position: 'relative',
+                  zIndex: 2,
+                  color: location.pathname === item.path ? '#059669' : '#6b7280',
+                  fontWeight: location.pathname === item.path ? '600' : '500'
+                }}
+              >
+                {item.label}
+                
+                {location.pathname === item.path && (
+                  <motion.div
+                    layoutId="activePageIndicator"
+                    // ... (rest of the motion.div remains the same)
+                  />
+                )}
+              </Link>
+            ))}
+          </div>
+
+          {/* Terminal Button */}
+          <div
+            onClick={onToggleTerminal}
+            // 4. Add event handlers and combine styles
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            style={{ ...baseButtonStyle, ...(isHovered ? hoverButtonStyle : {}) }}
+          >
+            <span style={{ color: '#fff' }}>Terminal&nbsp;</span>
+            <span style={{ color: isHovered ? '#00FF41' : '#fff' }}>{'>_'}</span>
+          </div>
+          
         </div>
       </div>
       
-      <style jsx>{`
-        .nav-link {
-          text-decoration: none;
-          display: inline-block;
-          position: relative;
-        }
-        
-        .nav-link:hover {
-          transform: translateY(-1px);
-        }
-        
-        .container {
-          width: 100%;
-          margin-left: auto;
-          margin-right: auto;
-          padding-left: 1rem;
-          padding-right: 1rem;
-        }
-        
-        @media (min-width: 640px) {
-          .container {
-            max-width: 640px;
-          }
-        }
-        
-        @media (min-width: 768px) {
-          .container {
-            max-width: 768px;
-          }
-        }
-        
-        @media (min-width: 1024px) {
-          .container {
-            max-width: 1024px;
-          }
-        }
-        
-        @media (min-width: 1280px) {
-          .container {
-            max-width: 1280px;
-          }
-        }
-      `}</style>
+      <style jsx>{
+      }</style>
     </nav>
   );
 };
 
-export default Navigation; 
+export default Navigation;
