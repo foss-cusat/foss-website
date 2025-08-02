@@ -10,7 +10,6 @@ const Navigation = ({ onToggleTerminal }) => {
     { path: '/', label: 'Home' },
     { path: '/events', label: 'Events' },
     { path: '/projects', label: 'Projects' },
-    { path: '/contact', label: 'Contact' },
   ];
 
   const baseButtonStyle = {
