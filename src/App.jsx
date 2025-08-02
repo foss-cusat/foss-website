@@ -18,8 +18,11 @@ function App() {
   const [scrollDirection, setScrollDirection] = useState('down');
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  // State for controlling the terminal's visibility is now here
-  const [isTerminalOpen, setIsTerminalOpen] = useState(true);
+  // --- THIS IS THE FIX ---
+  // Change the initial state from true to false
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false); 
+  // -----------------------
+
   const toggleTerminal = () => setIsTerminalOpen(!isTerminalOpen);
   const closeTerminal = () => setIsTerminalOpen(false);
 
@@ -74,7 +77,6 @@ function App() {
       <div className="App">
         <ScrollAnimations />
         
-        {/* Pass the toggle function to the Navigation component */}
         <Navigation onToggleTerminal={toggleTerminal} />
         
         <AnimatePresence mode="wait">
@@ -88,7 +90,6 @@ function App() {
 
         <Footer />
 
-        {/* Pass state and close function to the Terminal */}
         <Terminal isOpen={isTerminalOpen} onClose={closeTerminal} />
 
         <CommandPalette 
