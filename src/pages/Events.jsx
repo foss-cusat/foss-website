@@ -123,9 +123,9 @@ const Events = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: '#f9fafb' }}>
+    <div className="min-h-screen" style={{ background: '#ffffff' }}>
       {/* Hero Section */}
-      <section className="section" style={{ background: '#f9fafb' }}>
+      <section className="section" style={{ background: '#ffffff' }}>
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
