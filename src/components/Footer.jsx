@@ -23,7 +23,7 @@ const Footer = () => {
               FOSS CUSAT
             </h3>
             <p className="text-sm" style={{ color: '#6b7280', maxWidth: '300px' }}>
-              Empowering students through open source development and innovation.
+              A community effort.
             </p>
           </motion.div>
 
@@ -59,17 +59,9 @@ const Footer = () => {
           </motion.div>
         </div>
         
-        {/* Centered Copyright */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center mt-4"
-        >
-          <p className="text-xs" style={{ color: '#9ca3af' }}>
-            © 2025 FOSS CUSAT. All rights reserved.
+          <p className="text-s" style={{ color: '#9ca3af' }}>
+            Built with ❤️ by the FOSS@CUSAT community
           </p>
-        </motion.div>
       </div>
 
       <style jsx>{`
