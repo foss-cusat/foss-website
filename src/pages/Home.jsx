@@ -19,7 +19,7 @@ const Home = () => {
       id: 1,
       title: 'Inauguration Ceremony: Git, GitHub & GitLab Workshop',
       organization: 'FOSS CUSAT',
-      date: '13 August 2025',
+      date: '13 Aug 2025',
       location: 'CUSAT Campus, Kochi',
       type: 'workshop',
       tagColor: 'green',
