@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
-import { MapPin } from 'lucide-react';
 import Terminal from '../components/Terminal';
 
 const Home = () => {
@@ -14,19 +13,6 @@ const Home = () => {
   ╚═╝      ╚═════╝ ╚══════╝╚══════╝     ╚═════╝╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝   
   `;
 
-  const events = [
-    {
-      id: 1,
-      title: 'Inauguration Ceremony: Git, GitHub & GitLab Workshop',
-      organization: 'FOSS CUSAT',
-      date: '13 Aug 2025',
-      location: 'CUSAT Campus, Kochi',
-      type: 'workshop',
-      tagColor: 'green',
-      hasIcon: true
-    }
-  ];
-
   const project = {
     id: 1,
     title: 'VEGA-R1',
@@ -38,18 +24,7 @@ const Home = () => {
     image: '/vega-r1.jpeg'
   };
 
-  const groupEventsByMonth = (events) => {
-    const grouped = {};
-    events.forEach(event => {
-      const parts = event.date.split(' ');
-      const month = parts[1] + ' ' + parts[2];
-      if (!grouped[month]) grouped[month] = [];
-      grouped[month].push(event);
-    });
-    return grouped;
-  };
 
-  const groupedEvents = groupEventsByMonth(events);
 
   return (
     <div className="min-h-screen">
@@ -154,48 +129,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Events Section */}
-      <div style={{ background: '#f9fafb', padding: '3rem 0' }}>
-        <section className="section" id="events">
-          <div className="container mx-auto px-4">
-            <h1 className="text-5xl md:text-7xl font-black mb-12" style={{ letterSpacing: '-0.02em', textTransform: 'uppercase', fontWeight: '900', lineHeight: '1.1', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', textAlign: 'left', color: '#1a1a1a', textShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', position: 'relative', paddingBottom: '1rem' }}>
-              <span style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #404040 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', display: 'inline-block', position: 'relative' }}>
-                Upcoming Events
-              </span>
-              <div style={{ position: 'absolute', bottom: '0', left: '0', width: '60px', height: '4px', background: 'linear-gradient(90deg, #059669 0%, #10b981 100%)', borderRadius: '2px', boxShadow: '0 2px 4px rgba(5, 150, 105, 0.3)' }}></div>
-            </h1>
-            {Object.entries(groupedEvents).map(([month, monthEvents]) => (
-              <motion.div key={month} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-                <div className="grid gap-8">
-                  {monthEvents.map((event, eventIndex) => (
-                    <motion.div key={event.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.05, delay: 0.1 * eventIndex }} whileHover={{ y: -4, scale: 1.02 }} className="card event-card overflow-hidden" style={{ display: 'flex', flexDirection: 'column', background: '#ffffff', border: '3px solid #000000', borderRadius: '16px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)', transition: 'all 0.2s ease-in-out' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1)'; }}>
-                      <div className="p-5 pb-2">
-                        <div className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-semibold ${event.tagColor === 'green' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-gray-800 text-white shadow-md'}`}>
-                          {event.hasIcon && <MapPin className="w-3 h-3 mr-1.5" style={{ color: '#6b7280' }} />}
-                          {event.organization}
-                        </div>
-                      </div>
-                      <div className="p-5 pt-0 flex flex-col justify-between flex-1">
-                        <div>
-                          <p className="text-sm mb-2 font-medium" style={{ color: '#059669' }}>{event.date}</p>
-                          <h3 className="text-lg font-bold mb-3 leading-tight" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', color: '#111827', lineHeight: '1.3' }}>{event.title}</h3>
-                        </div>
-                        <div className="flex items-center justify-between mt-auto">
-                          <div className="flex items-center text-sm font-medium" style={{ color: '#374151' }}>
-                            <MapPin className="w-4 h-4 mr-1.5" style={{ color: '#6b7280' }} />
-                            <span style={{ display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{event.location}</span>
-                          </div>
-                          <button className="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 hover:scale-105" style={{ background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)', color: 'white', boxShadow: '0 2px 4px rgba(5, 150, 105, 0.3)' }}>Register</button>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-      </div>
+
 
       {/* Projects Section */}
       <div style={{ background: '#ffffff', padding: '3rem 0' }}>
