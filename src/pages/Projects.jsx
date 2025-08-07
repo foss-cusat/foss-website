@@ -20,34 +20,6 @@ const Projects = () => {
       date: '25 Mar 2025',
       status: 'active',
       image: '/vega-r1.jpeg'
-    },
-    {
-      id: 2,
-      title: 'FOSSEE Website',
-      description: 'Modern website for the FOSSEE club built with React and Vite. Features terminal interface and dark theme.',
-      category: 'web',
-      tech: ['React', 'Vite', 'CSS3', 'JavaScript'],
-      github: 'https://github.com/fossee-club/website',
-      live: 'https://fossee-club.org',
-      stars: 23,
-      forks: 5,
-      contributors: 4,
-      date: '15 Apr 2025',
-      status: 'active'
-    },
-    {
-      id: 3,
-      title: 'Linux Command Trainer',
-      description: 'Interactive web application to learn Linux commands through hands-on exercises and challenges.',
-      category: 'education',
-      tech: ['Python', 'Flask', 'JavaScript', 'SQLite'],
-      github: 'https://github.com/fossee-club/linux-trainer',
-      live: 'https://linux-trainer.fossee.org',
-      stars: 67,
-      forks: 15,
-      contributors: 12,
-      date: '25 Apr 2025',
-      status: 'active'
     }
   ];
 
@@ -61,21 +33,6 @@ const Projects = () => {
   const filteredProjects = projects.filter(project => 
     activeFilter === 'all' || project.category === activeFilter
   );
-
-  // Group projects by month
-  const groupProjectsByMonth = (projects) => {
-    const grouped = {};
-    projects.forEach(project => {
-      const month = project.date.split(' ')[1] + ' ' + project.date.split(' ')[2];
-      if (!grouped[month]) {
-        grouped[month] = [];
-      }
-      grouped[month].push(project);
-    });
-    return grouped;
-  };
-
-  const groupedProjects = groupProjectsByMonth(filteredProjects);
 
   return (
     <div className="min-h-screen" style={{ background: '#ffffff' }}>
@@ -125,30 +82,11 @@ const Projects = () => {
         </div>
       </section>
 
-      {/* Projects by Month */}
+      {/* Projects Grid */}
       <section className="section" style={{ padding: '1rem 0' }}>
         <div className="container mx-auto px-4">
-          {Object.entries(groupedProjects).map(([month, monthProjects], monthIndex) => (
-            <motion.div
-              key={month}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 * monthIndex }}
-              className="mb-16"
-            >
-              {/* Month Header */}
-              <h2 className="section-title mb-8" style={{ 
-                color: '#111827', 
-                fontSize: '2.5rem',
-                fontWeight: '800',
-                letterSpacing: '-0.025em',
-                textTransform: 'none',
-                textAlign: 'left'
-              }}>{month}</h2>
-              
-              {/* Projects Grid */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {monthProjects.map((project, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -289,11 +227,9 @@ const Projects = () => {
               </motion.div>
             ))}
           </div>
-        </motion.div>
-      ))}
 
-      {/* No Projects Found */}
-      {Object.keys(groupedProjects).length === 0 && (
+          {/* No Projects Found */}
+          {filteredProjects.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

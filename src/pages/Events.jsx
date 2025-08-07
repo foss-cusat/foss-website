@@ -9,77 +9,11 @@ const Events = () => {
   const events = [
     {
       id: 1,
-      title: 'Web Designing Competition',
-      organization: 'FOSS Club PDEA COEM',
-      date: '24 Jul 2025',
-      location: "PDEA's College of Engineering",
-      type: 'competition',
-      tagColor: 'green',
-      hasIcon: true
-    },
-    {
-      id: 2,
-      title: 'Virtual Meetup #1',
-      organization: 'SCIPY INDIA',
-      date: '26 Jul 2025',
-      location: 'Online',
-      type: 'meetup',
-      tagColor: 'black'
-    },
-    {
-      id: 3,
-      title: 'August Meetup',
-      organization: 'LUCKNOW',
-      date: '02 Aug 2025',
-      location: 'IIIT Lucknow',
-      type: 'meetup',
-      tagColor: 'black'
-    },
-    {
-      id: 4,
-      title: 'FOSS Meetup Mumbai',
-      organization: 'MUMBAI',
-      date: '02 Aug 2025',
-      location: 'Frappe, Vidyavihar',
-      type: 'meetup',
-      tagColor: 'black'
-    },
-    {
-      id: 5,
-      title: 'Unbox Freedom: Dive into Open Source',
-      organization: 'SRM KTR',
-      date: '05 Aug 2025',
-      location: 'Turing Hall, 8th floor TP, SRM',
-      type: 'workshop',
-      tagColor: 'green',
-      hasIcon: true
-    },
-    {
-      id: 6,
-      title: 'FOSS meetup Bangalore - Community Building',
-      organization: 'BENGALURU',
-      date: '09 Aug 2025',
-      location: 'Samagata Foundation',
-      type: 'meetup',
-      tagColor: 'black'
-    },
-    {
-      id: 7,
-      title: 'Linux Installation Festival',
+      title: 'Inauguration Ceremony: Git, GitHub & GitLab Workshop',
       organization: 'FOSS CUSAT',
-      date: '15 Aug 2025',
+      date: '13 Aug 2025',
       location: 'CUSAT Campus, Kochi',
-      type: 'festival',
-      tagColor: 'green',
-      hasIcon: true
-    },
-    {
-      id: 8,
-      title: 'Open Source Hackathon',
-      organization: 'FOSS CUSAT',
-      date: '22 Aug 2025',
-      location: 'Innovation Center, CUSAT',
-      type: 'hackathon',
+      type: 'workshop',
       tagColor: 'green',
       hasIcon: true
     }
