@@ -23,7 +23,6 @@ const Home = () => {
       location: 'CUSAT Campus, Kochi',
       type: 'workshop',
       tagColor: 'green',
-      hasIcon: true,
       hasIcon: true
     }
   ];
