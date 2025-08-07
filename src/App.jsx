@@ -4,8 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Events from './pages/Events';
-import Projects from './pages/Projects';
 
 import CommandPalette from './components/CommandPalette';
 import ScrollAnimations from './components/ScrollAnimations';
@@ -82,9 +80,6 @@ function App() {
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/projects" element={<Projects />} />
-
           </Routes>
         </AnimatePresence>
 

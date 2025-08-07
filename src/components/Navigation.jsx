@@ -8,8 +8,6 @@ const Navigation = ({ onToggleTerminal }) => {
 
   const navItems = [
     { path: '/', label: 'Home' },
-    { path: '/events', label: 'Events' },
-    { path: '/projects', label: 'Projects' },
   ];
 
   const baseButtonStyle = {
