@@ -185,7 +185,7 @@ const Home = () => {
                             <MapPin className="w-4 h-4 mr-1.5" style={{ color: '#6b7280' }} />
                             <span style={{ display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{event.location}</span>
                           </div>
-                          {event.hasRegister !== false && (
+                          {event.hasRegister === true && (
                             <button className="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 hover:scale-105" style={{ background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)', color: 'white', boxShadow: '0 2px 4px rgba(5, 150, 105, 0.3)' }}>Register</button>
                           )}
                         </div>
