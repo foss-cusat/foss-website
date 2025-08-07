@@ -24,7 +24,7 @@ const Home = () => {
       type: 'workshop',
       tagColor: 'green',
       hasIcon: true,
-      hasRegister: false
+      hasIcon: true
     }
   ];
 
