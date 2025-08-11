@@ -1,30 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
+import Navigation from "./components/Navigation";
 
 function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-
   return (
     <div className="app">
-      {/* Header */}
-      <header className="header">
-        <h1 className="logo">FOSS CUSAT</h1>
-        <button className="menu-btn" onClick={toggleMenu}>
-          ☰
-        </button>
-      </header>
-
-      {/* Mobile Nav */}
-      {menuOpen && (
-        <nav className="mobile-menu">
-          <a href="#about" onClick={toggleMenu}>About</a>
-          <a href="#events" onClick={toggleMenu}>Events</a>
-          <a href="#projects" onClick={toggleMenu}>Projects</a>
-          <a href="#join" onClick={toggleMenu}>Join Us</a>
-        </nav>
-      )}
+      {/* Navigation */}
+      <Navigation />
 
       {/* Hero Section */}
       <section className="hero">
@@ -64,7 +46,10 @@ function App() {
 
       {/* Footer */}
       <footer className="footer">
-        Built with ❤️ by the FOSS@CUSAT community <br></br><br></br> Follow us on{" "}
+        Built with ❤️ by the FOSS@CUSAT community
+        <br />
+        <br />
+        Follow us on{" "}
         <a href="https://github.com/foss-cusat" target="_blank" rel="noreferrer">
           GitHub
         </a>
