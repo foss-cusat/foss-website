@@ -129,13 +129,56 @@ const Home = () => {
         </div>
       </section>
 
-
+      {/* Upcoming Event Section (moved below Social Media) */}
+      <section className="section" id="upcoming-event" style={{ background: '#ffffff', padding: '2rem 0' }}>
+        <div className="container mx-auto px-4">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <h2 className="text-3xl font-extrabold mb-6" style={{ color: '#111827' }}>Upcoming Event</h2>
+            <div className="event-card" style={{
+              background: '#ffffff',
+              border: '3px solid #000000',
+              borderRadius: '16px',
+              padding: '1.25rem',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.07)',
+              maxWidth: '680px',
+              margin: '0 auto'
+            }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 800 }}>Inaugration Ceremony</div>
+                <div style={{ color: '#374151' }}>
+                  <span style={{ fontWeight: 700 }}>Date:</span> 14-aug
+                </div>
+                <div style={{ color: '#374151' }}>
+                  <span style={{ fontWeight: 700 }}>Time:</span> 2 to 4
+                </div>
+                <div style={{ color: '#374151' }}>
+                  <span style={{ fontWeight: 700 }}>Venue:</span> seminal hall , nlb,soe,cusat
+                </div>
+                <div style={{ color: '#374151' }}>
+                  <span style={{ fontWeight: 700 }}>Guests:</span> sebin, rohit
+                </div>
+              </div>
+              <a href="/inaugration" style={{
+                display: 'inline-block',
+                marginTop: '1rem',
+                padding: '0.5rem 0.75rem',
+                background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+                color: '#fff',
+                borderRadius: '10px',
+                border: '2px solid #000000',
+                textDecoration: 'none',
+                fontWeight: 700
+              }}>View details</a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
       {/* Projects Section */}
       <div style={{ background: '#ffffff', padding: '3rem 0' }}>
         <section className="section" id="projects">
           <div className="container mx-auto px-4">
-            <h1 className="text-5xl md:text-7xl font-black mb-12" style={{ letterSpacing: '-0.02em', textTransform: 'uppercase', fontWeight: '900', lineHeight: '1.1', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', textAlign: 'left', color: '#1a1a1a', textShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', position: 'relative', paddingBottom: '1rem' }}>
+            <h1 className="text-5xl md:text-7xl font-black mb-12" style={{ letterSpacing: '-0.02em', textTransform: 'uppercase', fontWeight: '900', lineHeight: '1.1', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif', textAlign: 'left', color: '#1a1a1a', textShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', position: 'relative', paddingBottom: '1rem' }}>
               <span style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #404040 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', display: 'inline-block', position: 'relative' }}>
                 Featured Projects
               </span>

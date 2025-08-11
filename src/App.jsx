@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import Event from './pages/Event';
 
 import CommandPalette from './components/CommandPalette';
 import ScrollAnimations from './components/ScrollAnimations';
@@ -12,7 +13,6 @@ import './App.css';
 
 function App() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [scrollDirection, setScrollDirection] = useState('down');
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -23,14 +23,6 @@ function App() {
 
   const toggleTerminal = () => setIsTerminalOpen(!isTerminalOpen);
   const closeTerminal = () => setIsTerminalOpen(false);
-
-  useEffect(() => {
-    // Simulate loading time
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -58,18 +50,6 @@ function App() {
     };
   }, [lastScrollY]);
 
-  if (isLoading) {
-    return (
-      <div className="loading-screen">
-        <div className="terminal">
-          <div className="terminal-prompt">root@foss ~$ </div>
-          <div className="typewriter">Initializing System...</div>
-          <div className="loading mt-4"></div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <Router>
       <div className="App">
@@ -80,6 +60,7 @@ function App() {
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/inaugration" element={<Event />} />
           </Routes>
         </AnimatePresence>
 
