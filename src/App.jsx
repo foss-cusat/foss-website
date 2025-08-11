@@ -1,99 +1,77 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import Navigation from './components/Navigation';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-
-import CommandPalette from './components/CommandPalette';
-import ScrollAnimations from './components/ScrollAnimations';
-import Terminal from './components/Terminal';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [scrollDirection, setScrollDirection] = useState('down');
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // --- THIS IS THE FIX ---
-  // Change the initial state from true to false
-  const [isTerminalOpen, setIsTerminalOpen] = useState(false); 
-  // -----------------------
-
-  const toggleTerminal = () => setIsTerminalOpen(!isTerminalOpen);
-  const closeTerminal = () => setIsTerminalOpen(false);
-
-  useEffect(() => {
-    // Simulate loading time
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.ctrlKey && e.key === 'k') {
-        e.preventDefault();
-        setCommandPaletteOpen(true);
-      }
-      if (e.key === 'Escape') {
-        setCommandPaletteOpen(false);
-      }
-    };
-
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrollDirection(currentScrollY > lastScrollY ? 'down' : 'up');
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [lastScrollY]);
-
-  if (isLoading) {
-    return (
-      <div className="loading-screen">
-        <div className="terminal">
-          <div className="terminal-prompt">root@foss ~$ </div>
-          <div className="typewriter">Initializing System...</div>
-          <div className="loading mt-4"></div>
-        </div>
-      </div>
-    );
-  }
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <Router>
-      <div className="App">
-        <ScrollAnimations />
-        
-        <Navigation onToggleTerminal={toggleTerminal} />
-        
-        <AnimatePresence mode="wait">
-          <Routes>
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </AnimatePresence>
+    <div className="app">
+      {/* Header */}
+      <header className="header">
+        <h1 className="logo">FOSS CUSAT</h1>
+        <button className="menu-btn" onClick={toggleMenu}>
+          ☰
+        </button>
+      </header>
 
-        <Footer />
+      {/* Mobile Nav */}
+      {menuOpen && (
+        <nav className="mobile-menu">
+          <a href="#about" onClick={toggleMenu}>About</a>
+          <a href="#events" onClick={toggleMenu}>Events</a>
+          <a href="#projects" onClick={toggleMenu}>Projects</a>
+          <a href="#join" onClick={toggleMenu}>Join Us</a>
+        </nav>
+      )}
 
-        <Terminal isOpen={isTerminalOpen} onClose={closeTerminal} />
+      {/* Hero Section */}
+      <section className="hero">
+        <h2>FOSS CUSAT</h2>
+        <p>Empowering community driven development.</p>
+        <button className="btn" onClick={() => alert("Join form coming soon!")}>
+          Join Us
+        </button>
+      </section>
 
-        <CommandPalette 
-          isOpen={commandPaletteOpen} 
-          onClose={() => setCommandPaletteOpen(false)} 
-        />
-      </div>
-    </Router>
+      {/* About Section */}
+      <section id="about" className="section">
+        <h3>About Us</h3>
+        <p>
+          We are a community at School of Engineering, CUSAT promoting Free & Open Source Software
+          through workshops, hackathons, and collaborative projects.
+        </p>
+      </section>
+
+      {/* Events Section */}
+      <section id="events" className="section">
+        <h3>Upcoming Events</h3>
+        <ul>
+          <li>🛠 Hackathon – March 10</li>
+          <li>💻 Git Workshop – March 20</li>
+        </ul>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="section">
+        <h3>Our Projects</h3>
+        <ul>
+          <li>🌱 Sustainable Tech Tracker</li>
+          <li>📚 Open Learning Platform</li>
+        </ul>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        Built with ❤️ by the FOSS@CUSAT community <br></br><br></br> Follow us on{" "}
+        <a href="https://github.com/foss-cusat" target="_blank" rel="noreferrer">
+          GitHub
+        </a>
+      </footer>
+    </div>
   );
 }
 
 export default App;
+
