@@ -19,9 +19,6 @@ const Navigation = () => {
       {menuOpen && (
         <nav className="mobile-menu">
           <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
-          <a href="#events" onClick={() => setMenuOpen(false)}>Events</a>
-          <a href="#projects" onClick={() => setMenuOpen(false)}>Projects</a>
-          <a href="#join" onClick={() => setMenuOpen(false)}>Join Us</a>
         </nav>
       )}
     </header>

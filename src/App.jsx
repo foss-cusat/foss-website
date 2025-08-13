@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import Navigation from "./components/Navigation";
+import { FaInstagram, FaWhatsapp, FaGithub } from "react-icons/fa";
 
 function App() {
   return (
@@ -19,9 +20,11 @@ function App() {
 ╚═╝      ╚═════╝ ╚══════╝╚══════╝     ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝   `}
         </pre>
         <p>Empowering community driven development.</p>
-        <button className="btn" onClick={() => alert("Join form coming soon!")}>
+        <a href="https://chat.whatsapp.com/JXOTeeEHLFYBrIc6hFwtC6">
+        <button className="btn">
           Join Us
         </button>
+        </a>
       </section>
 
       {/* About Section */}
@@ -37,17 +40,45 @@ function App() {
       <section id="events" className="section">
         <h3>Upcoming Events</h3>
         <ul>
-          <li>🛠 Hackathon – March 10</li>
-          <li>💻 Git Workshop – March 20</li>
+          <li>🎉 FOSS@CUSAT Inauguration<br />August 14, 2025 | Seminar Hall, NLB<br /><br />
+              <small>
+                Join us for the official launch of FOSS CUSAT! 
+              </small>
+          </li>
         </ul>
       </section>
 
-      {/* Projects Section */}
-      <section id="projects" className="section">
-        <h3>Our Projects</h3>
-        <ul>
-          <li>🌱 Sustainable Tech Tracker</li>
-          <li>📚 Open Learning Platform</li>
+      {/* Socials Section */}
+      <section id="socials" className="section">
+        <h3>STAY IN THE LOOP</h3>
+        <ul className="social-links">
+          <li>
+            <a
+              href="https://instagram.com/foss_cusat"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaInstagram className="icon" /> @foss_cusat
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://chat.whatsapp.com/your-group-invite"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaWhatsapp className="icon" /> whatsapp group
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/foss-cusat"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaGithub className="icon" /> github/foss-cusat
+            </a>
+          </li>
         </ul>
       </section>
 
@@ -55,11 +86,6 @@ function App() {
       <footer className="footer">
         Built with ❤️ by the FOSS@CUSAT community
         <br />
-        <br />
-        Follow us on{" "}
-        <a href="https://github.com/foss-cusat" target="_blank" rel="noreferrer">
-          GitHub
-        </a>
       </footer>
     </div>
   );
