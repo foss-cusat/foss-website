@@ -97,6 +97,8 @@ const Terminal = ({ isOpen, onClose }) => {
 
       let input = '';
       let currentDir = 'home';
+      let cursorPos = 0;
+
       term.onKey(({ key, domEvent }) => {
         if (domEvent.key === 'Enter') {
           term.write('\r\n');
@@ -107,10 +109,18 @@ const Terminal = ({ isOpen, onClose }) => {
           input = '';
           setTimeout(() => printPrompt(term, currentDir), 10);
         } else if (domEvent.key === 'Backspace') {
-          if (input.length > 0) {
-            input = input.slice(0, -1);
-            term.write('\b \b');
-          }
+            if (cursorPos > 0) {
+              input = input.slice(0, cursorPos - 1) + input.slice(cursorPos);
+              cursorPos--;
+
+              term.write('\x1b[2K\r'); 
+              printPrompt(term, currentDir);
+              term.write(input);
+              const moveLeft = input.length - cursorPos;
+              if (moveLeft > 0) {
+                term.write(`\x1b[${moveLeft}D`);
+              }
+            }
         } else if (domEvent.key === 'Tab') {
           domEvent.preventDefault();
           const completed = handleTabCompletion(input, currentDir);
@@ -121,10 +131,45 @@ const Terminal = ({ isOpen, onClose }) => {
             input = completed;
             term.write(input);
           }
-        } else if (domEvent.key.length === 1) {
-          input += key;
-          term.write(key);
+        } 
+        else if (domEvent.key.length === 1) {
+          input = input.slice(0, cursorPos) + key + input.slice(cursorPos);
+          cursorPos++;
+
+          term.write('\x1b[K');
+          term.write(input.slice(cursorPos - 1));
+
+          const charsToMoveBack = input.length - cursorPos;
+          if (charsToMoveBack > 0) {
+            term.write(`\x1b[${charsToMoveBack}D`);
+          }
+}
+        else if(domEvent.key == 'ArrowLeft'){
+            if(cursorPos > 0){
+              cursorPos--;
+              term.write('\x1b[D');
+            }
+        } 
+        else if(domEvent.key == 'ArrowRight'){
+          if(cursorPos < input.length){
+            cursorPos++;
+            term.write('\x1b[C');
+          }
         }
+        else if (domEvent.key === ' ') {
+          input = input.slice(0, cursorPos) + ' ' + input.slice(cursorPos);
+          cursorPos++;
+
+          term.write('\x1b[K');
+
+          term.write(input.slice(cursorPos - 1));
+
+          const charsToMoveBack = input.length - cursorPos;
+          if (charsToMoveBack > 0) {
+            term.write(`\x1b[${charsToMoveBack}D`);
+          }
+        }
+
       });
     }
     
@@ -401,4 +446,4 @@ const Terminal = ({ isOpen, onClose }) => {
   );
 };
 
-export default Terminal;
+export default Terminal; 
