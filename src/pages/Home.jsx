@@ -144,7 +144,7 @@ const Home = () => {
               margin: '0 auto'
             }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 800 }}>Inaugration Ceremony</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 800 }}>Inauguration Ceremony</div>
                 <div style={{ color: '#374151' }}>
                   <span style={{ fontWeight: 700 }}>Date:</span> 14-aug
                 </div>
@@ -152,7 +152,7 @@ const Home = () => {
                   <span style={{ fontWeight: 700 }}>Time:</span> 2 to 4
                 </div>
                 <div style={{ color: '#374151' }}>
-                  <span style={{ fontWeight: 700 }}>Venue:</span> seminal hall , nlb,soe,cusat
+                  <span style={{ fontWeight: 700 }}>Venue:</span> seminar hall , nlb,soe,cusat
                 </div>
                 <div style={{ color: '#374151' }}>
                   <span style={{ fontWeight: 700 }}>Guests:</span> sebin, rohit

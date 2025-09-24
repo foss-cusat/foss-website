@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 
 const Event = () => {
   const event = {
-    title: 'Inaugration Ceremony',
-    venue: 'seminal hall , nlb,soe,cusat',
+    title: 'Inauguration Ceremony',
+    venue: 'seminar hall , nlb,soe,cusat',
     time: '2 to 4',
     date: '14-aug'
   };
